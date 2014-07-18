@@ -34,7 +34,7 @@ module Acme
         # replace the page parameter in the query string
         def query_string_for_page(page, opts)
           qs = Rack::Utils.parse_nested_query(opts[:env]['QUERY_STRING'])
-          qs["page"] = page
+          qs['page'] = page
           qs.to_query
         end
       end
