@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+ruby '2.1.2'
+
 gem 'grape', '~> 0.8.0'
 gem 'grape-roar', '~> 0.1.0'
 gem 'rack-cors', '~> 0.2.8'
