@@ -1,4 +1,5 @@
 require 'presenters/paginated_presenter'
+require 'presenters/spline_presenter'
 
 module Acme
   module Api
