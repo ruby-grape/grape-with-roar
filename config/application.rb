@@ -10,13 +10,12 @@ require 'roar/representer'
 require 'roar/representer/json'
 require 'roar/representer/json/hal'
 
-Dir[File.expand_path('../../api/**/*.rb', __FILE__)].each do |f|
-  require f
-end
-
 require 'active_model'
-Dir[File.expand_path('../../app/models/*.rb', __FILE__)].each do |f|
-  require f
+
+['api/representers', 'api', 'app/models'].each do |path|
+  Dir[File.expand_path("../../#{path}/*.rb", __FILE__)].each do |f|
+    require f
+  end
 end
 
 require 'root_endpoint'
