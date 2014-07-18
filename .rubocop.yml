@@ -1,0 +1,22 @@
+AllCops:
+  Exclude:
+    - vendor/**/*
+    - bin/**/*
+
+LineLength:
+  Enabled: false
+
+MethodLength:
+  Enabled: false
+
+ClassLength:
+  Enabled: false
+
+Documentation:
+  # don't require classes to be documented
+  Enabled: false
+
+Encoding:
+  # no need to always specify encoding
+  Enabled: false
+
