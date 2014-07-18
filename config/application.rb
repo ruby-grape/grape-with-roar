@@ -12,7 +12,7 @@ require 'roar/representer/json/hal'
 
 require 'active_model'
 
-['api/representers', 'api', 'app/models'].each do |path|
+['api/presenters', 'api', 'app/models'].each do |path|
   Dir[File.expand_path("../../#{path}/*.rb", __FILE__)].each do |f|
     require f
   end

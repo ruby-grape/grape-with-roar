@@ -1,3 +1,5 @@
+require 'presenters/paginated_presenter'
+
 module Acme
   module Api
     module Presenters
