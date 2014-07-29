@@ -7,9 +7,7 @@ module Acme
 
       desc 'Acme Reticulated Splines Api.'
       get do
-        {
-          splines_url: "#{request.url}/splines"
-        }
+        present self, with: Acme::Api::Presenters::RootPresenter
       end
 
       mount Acme::Api::SplinesEndpoint
