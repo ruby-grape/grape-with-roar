@@ -8,7 +8,7 @@ A [Grape](http://github.com/intridea/grape) API that uses [Roar](https://github.
 See
 ---
 
-There's a deployed [grape-with-roar on Heroku](http://grape-with-roar.herokuapp.com/api/).
+Try me [here](http://grape-with-roar.herokuapp.com/api/).
 
 Run
 ---
