@@ -8,7 +8,7 @@ A [Grape](http://github.com/intridea/grape) API that uses [Roar](https://github.
 See
 ---
 
-Try me [here](http://grape-with-roar.herokuapp.com/api/).
+Try me [here](http://grape-with-roar.herokuapp.com/). In Chrome, best viewed with the [JSONView Plugin](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en).
 
 Run
 ---
