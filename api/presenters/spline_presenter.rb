@@ -13,6 +13,19 @@ module Acme
           request = Grape::Request.new(opts[:env])
           "#{request.base_url}/api/splines/#{uuid}"
         end
+
+        curies do |opts|
+          request = Grape::Request.new(opts[:env])
+          [
+            name: :images,
+            href: "#{request.base_url}/api/splines/#{uuid}/images/{rel}",
+            templated: true
+          ]
+        end
+
+        link 'images:thumbnail' do
+          'thumbnail.jpg'
+        end
       end
     end
   end
