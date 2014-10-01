@@ -18,6 +18,13 @@ module Acme
           "#{base_url(opts)}/api/splines"
         end
 
+        link :spline do |opts|
+          {
+            href: "#{base_url(opts)}/api/splines/{uuid}",
+            templated: true
+          }
+        end
+
         private
 
         def base_url(opts)
