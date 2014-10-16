@@ -8,10 +8,7 @@ describe Acme::Api::SplinesEndpoint do
   let(:client) do
     Hyperclient.new('http://example.org/api') do |client|
       client.connection(default: false) do |conn|
-        conn.use Faraday::Response::RaiseError
-        conn.use FaradayMiddleware::FollowRedirects
-        conn.request :json
-        conn.response :json, content_type: /\bjson$/
+        conn.response :json
         conn.use Faraday::Adapter::Rack, app
       end
     end
