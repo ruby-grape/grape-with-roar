@@ -15,4 +15,5 @@ end
 group :test do
   gem 'rspec', '~> 3.0'
   gem 'rack-test', '~> 0.6.2'
+  gem 'hyperclient', github: 'codegram/hyperclient'
 end

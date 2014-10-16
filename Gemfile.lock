@@ -1,3 +1,15 @@
+GIT
+  remote: git://github.com/codegram/hyperclient.git
+  revision: 4350988ca59d5f42af9d9e4a2265a711677fb605
+  specs:
+    hyperclient (0.5.1)
+      faraday (~> 0.8)
+      faraday-digestauth (~> 0.2)
+      faraday_middleware (~> 0.9)
+      futuroscope (>= 0.0.10)
+      net-http-digest_auth (~> 1.2)
+      uri_template (~> 0.5)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -32,6 +44,14 @@ GEM
     diff-lcs (1.2.5)
     equalizer (0.0.9)
     erubis (2.7.0)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
+    faraday-digestauth (0.2.0)
+      faraday (~> 0.7)
+      net-http-digest_auth (~> 1.4)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
+    futuroscope (0.1.11)
     grape (0.8.0)
       activesupport
       builder
@@ -60,6 +80,8 @@ GEM
     minitest (5.4.0)
     multi_json (1.10.1)
     multi_xml (0.5.5)
+    multipart-post (2.0.0)
+    net-http-digest_auth (1.4)
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
     parser (2.2.0.pre.3)
@@ -106,6 +128,7 @@ GEM
     tzinfo (1.2.1)
       thread_safe (~> 0.1)
     uber (0.0.7)
+    uri_template (0.7.0)
     virtus (1.0.2)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -120,6 +143,7 @@ DEPENDENCIES
   grape (~> 0.8.0)
   grape-roar (~> 0.1.0)
   grape-swagger (~> 0.6.0)
+  hyperclient!
   kaminari (~> 0.14.x)
   rack-cors (~> 0.2.8)
   rack-test (~> 0.6.2)

@@ -15,7 +15,10 @@ module Acme
         end
 
         link :splines do |opts|
-          "#{base_url(opts)}/api/splines"
+          {
+            href: "#{base_url(opts)}/api/splines{?page,size}",
+            templated: true
+          }
         end
 
         link :spline do |opts|
