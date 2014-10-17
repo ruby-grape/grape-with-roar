@@ -9,11 +9,11 @@ gem 'kaminari', '~> 0.14.x', require: 'kaminari/grape'
 
 group :development do
   gem 'rake'
-  gem 'rubocop', '0.24.1'
+  gem 'rubocop', '0.26.1'
 end
 
 group :test do
   gem 'rspec', '~> 3.0'
   gem 'rack-test', '~> 0.6.2'
-  gem 'hyperclient', github: 'codegram/hyperclient'
+  gem 'hyperclient', '~> 0.6.0'
 end

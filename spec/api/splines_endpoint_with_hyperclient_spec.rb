@@ -8,6 +8,7 @@ describe Acme::Api::SplinesEndpoint do
   let(:client) do
     Hyperclient.new('http://example.org/api') do |client|
       client.connection(default: false) do |conn|
+        conn.request :json
         conn.response :json
         conn.use Faraday::Adapter::Rack, app
       end
@@ -32,11 +33,28 @@ describe Acme::Api::SplinesEndpoint do
 
     it 'returns all unique uuids' do
       splines = client.splines({})
-      expect(splines.map { |spline| spline.uuid }.uniq.count).to eq 3
+      expect(splines.map(&:uuid).uniq.count).to eq 3
     end
   end
 
   context 'spline' do
+    it 'creates a spline' do
+      spline = client.splines._post(reticulated: true)
+      expect(spline.uuid).to_not be_blank
+      expect(spline.reticulated).to be true
+    end
+
+    it 'updates a spline' do
+      spline = client.spline(uuid: '123')._put(reticulated: true)
+      expect(spline.uuid).to eq '123'
+      expect(spline.reticulated).to be true
+    end
+
+    it 'deletes a spline' do
+      spline = client.spline(uuid: '123')._delete
+      expect(spline.uuid).to eq '123'
+    end
+
     it 'returns a spline' do
       spline = client.spline(uuid: '123')
       expect(spline.uuid).to eq '123'

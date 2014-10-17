@@ -13,6 +13,34 @@ module Acme
           present spline, with: Acme::Api::Presenters::SplinePresenter
         end
 
+        desc 'Create a spline.'
+        params do
+          optional :reticulated, type: Boolean, default: false, desc: 'True if the spline is reticulated.'
+        end
+        post do
+          spline = Acme::Models::Spline.new(reticulated: params[:reticulated])
+          present spline, with: Acme::Api::Presenters::SplinePresenter
+        end
+
+        desc 'Update an existing spline.'
+        params do
+          requires :uuid, type: String, desc: 'Spline id.'
+          optional :reticulated, type: Boolean, default: false, desc: 'True if the spline is reticulated.'
+        end
+        put ':uuid' do
+          spline = Acme::Models::Spline.new(uuid: params[:uuid], reticulated: params[:reticulated])
+          present spline, with: Acme::Api::Presenters::SplinePresenter
+        end
+
+        desc 'DElete an existing spline.'
+        params do
+          requires :uuid, type: String, desc: 'Spline id.'
+        end
+        delete ':uuid' do
+          spline = Acme::Models::Spline.new(uuid: params[:uuid])
+          present spline, with: Acme::Api::Presenters::SplinePresenter
+        end
+
         desc 'Get all the splines.'
         params do
           optional :page, type: Integer, default: 1, desc: 'Number of splines to return.'

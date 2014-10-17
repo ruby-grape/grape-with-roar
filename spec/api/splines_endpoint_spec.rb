@@ -40,6 +40,28 @@ describe Acme::Api::SplinesEndpoint do
   end
 
   context 'spline' do
+    it 'creates a spline' do
+      post '/api/splines'
+      expect(last_response.status).to eq 201
+      json = JSON.parse(last_response.body)
+      expect(json['uuid']).to_not be_blank
+    end
+
+    it 'updates a spline' do
+      put '/api/splines/123?reticulated=true'
+      expect(last_response.status).to eq 200
+      json = JSON.parse(last_response.body)
+      expect(json['uuid']).to eq '123'
+      expect(json['reticulated']).to be true
+    end
+
+    it 'deletes a spline' do
+      delete '/api/splines/123'
+      expect(last_response.status).to eq 200
+      json = JSON.parse(last_response.body)
+      expect(json['uuid']).to eq '123'
+    end
+
     it 'returns a spline' do
       get '/api/splines/123'
       expect(last_response.status).to eq 200

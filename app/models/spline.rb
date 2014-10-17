@@ -6,10 +6,10 @@ module Acme
       attr_accessor :uuid
       attr_accessor :reticulated
 
-      def initialize(attrs = {})
+      def initialize(attrs = { reticulated: [true, false].sample })
         super(attrs)
         @uuid ||= SecureRandom.uuid
-        @reticulated = [true, false].sample
+        @reticulated = !!attrs[:reticulated]
       end
     end
   end
