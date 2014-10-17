@@ -15,5 +15,5 @@ end
 group :test do
   gem 'rspec', '~> 3.0'
   gem 'rack-test', '~> 0.6.2'
-  gem 'hyperclient', '~> 0.6.0'
+  gem 'hyperclient', '~> 0.6.1'
 end

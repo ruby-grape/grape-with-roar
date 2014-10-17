@@ -59,7 +59,7 @@ GEM
       grape (>= 0.2.0)
       kramdown
     hashie (3.2.0)
-    hyperclient (0.6.0)
+    hyperclient (0.6.1)
       faraday (~> 0.8)
       faraday-digestauth (~> 0.2)
       faraday_middleware (~> 0.9)
@@ -140,7 +140,7 @@ DEPENDENCIES
   grape (~> 0.8.0)
   grape-roar (~> 0.1.0)
   grape-swagger (~> 0.6.0)
-  hyperclient (~> 0.6.0)
+  hyperclient (~> 0.6.1)
   kaminari (~> 0.14.x)
   rack-cors (~> 0.2.8)
   rack-test (~> 0.6.2)
