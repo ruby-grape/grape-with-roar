@@ -32,7 +32,7 @@ module Acme
           present spline, with: Acme::Api::Presenters::SplinePresenter
         end
 
-        desc 'DElete an existing spline.'
+        desc 'Delete an existing spline.'
         params do
           requires :uuid, type: String, desc: 'Spline id.'
         end
