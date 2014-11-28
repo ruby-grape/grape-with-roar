@@ -39,13 +39,13 @@ describe Acme::Api::SplinesEndpoint do
 
   context 'spline' do
     it 'creates a spline' do
-      spline = client.splines._post(reticulated: true)
+      spline = client.splines._post(spline: { reticulated: true })
       expect(spline.uuid).to_not be_blank
       expect(spline.reticulated).to be true
     end
 
     it 'updates a spline' do
-      spline = client.spline(uuid: '123')._put(reticulated: true)
+      spline = client.spline(uuid: '123')._put(spline: { reticulated: true })
       expect(spline.uuid).to eq '123'
       expect(spline.reticulated).to be true
     end

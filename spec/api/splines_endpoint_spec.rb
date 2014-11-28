@@ -41,14 +41,16 @@ describe Acme::Api::SplinesEndpoint do
 
   context 'spline' do
     it 'creates a spline' do
-      post '/api/splines'
+      expect_any_instance_of(Acme::Models::Spline).to receive(:save!)
+      post '/api/splines', spline: { reticulated: false }
       expect(last_response.status).to eq 201
       json = JSON.parse(last_response.body)
       expect(json['uuid']).to_not be_blank
     end
 
     it 'updates a spline' do
-      put '/api/splines/123?reticulated=true'
+      expect_any_instance_of(Acme::Models::Spline).to receive(:save!)
+      put '/api/splines/123', spline: { reticulated: true }
       expect(last_response.status).to eq 200
       json = JSON.parse(last_response.body)
       expect(json['uuid']).to eq '123'
@@ -56,6 +58,7 @@ describe Acme::Api::SplinesEndpoint do
     end
 
     it 'deletes a spline' do
+      expect_any_instance_of(Acme::Models::Spline).to receive(:destroy)
       delete '/api/splines/123'
       expect(last_response.status).to eq 200
       json = JSON.parse(last_response.body)

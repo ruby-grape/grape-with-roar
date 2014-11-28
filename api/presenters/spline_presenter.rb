@@ -6,8 +6,8 @@ module Acme
         include Roar::Representer::Feature::Hypermedia
         include Grape::Roar::Representer
 
-        property :uuid
-        property :reticulated
+        property :uuid, writeable: false, type: String, desc: 'Spline unique ID.'
+        property :reticulated, type: Grape::API::Boolean, default: false, desc: 'True if spline is reticulated.'
 
         link :self do |opts|
           request = Grape::Request.new(opts[:env])

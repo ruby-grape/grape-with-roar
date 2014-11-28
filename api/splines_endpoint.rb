@@ -15,21 +15,25 @@ module Acme
 
         desc 'Create a spline.'
         params do
-          optional :reticulated, type: Boolean, default: false, desc: 'True if the spline is reticulated.'
+          requires :spline, type: Hash do
+            optional :reticulated, type: Boolean, default: false
+          end # Acme::Api::Presenters::SplinePresenter
         end
         post do
-          spline = Acme::Models::Spline.new(reticulated: params[:reticulated])
+          spline = create Acme::Models::Spline, with: Acme::Api::Presenters::SplinePresenter, from: params[:spline]
           present spline, with: Acme::Api::Presenters::SplinePresenter
         end
 
         desc 'Update an existing spline.'
         params do
           requires :uuid, type: String, desc: 'Spline id.'
-          optional :reticulated, type: Boolean, default: false, desc: 'True if the spline is reticulated.'
+          requires :spline, type: Hash do
+            optional :reticulated, type: Boolean, default: false
+          end # Acme::Api::Presenters::SplinePresenter
         end
         put ':uuid' do
-          spline = Acme::Models::Spline.new(uuid: params[:uuid], reticulated: params[:reticulated])
-          present spline, with: Acme::Api::Presenters::SplinePresenter
+          spline = Acme::Models::Spline.find(params[:uuid])
+          update spline, with: Acme::Api::Presenters::SplinePresenter, from: params[:spline]
         end
 
         desc 'Delete an existing spline.'
@@ -37,8 +41,8 @@ module Acme
           requires :uuid, type: String, desc: 'Spline id.'
         end
         delete ':uuid' do
-          spline = Acme::Models::Spline.new(uuid: params[:uuid])
-          present spline, with: Acme::Api::Presenters::SplinePresenter
+          spline = Acme::Models::Spline.find(params[:uuid])
+          delete spline, with: Acme::Api::Presenters::SplinePresenter
         end
 
         desc 'Get all the splines.'
@@ -47,7 +51,7 @@ module Acme
           optional :size, type: Integer, default: 3, desc: 'Number of splines to return.'
         end
         get do
-          splines = 42.times.map { Acme::Models::Spline.new }
+          splines = Acme::Models::Spline.all
           present Kaminari.paginate_array(splines).page(params[:page]).per(params[:size]), with: Acme::Api::Presenters::SplinesPresenter
         end
       end

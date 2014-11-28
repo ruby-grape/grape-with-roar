@@ -11,6 +11,20 @@ module Acme
         @uuid ||= SecureRandom.uuid
         @reticulated = !!attrs[:reticulated]
       end
+
+      def self.all
+        42.times.map { Acme::Models::Spline.new }
+      end
+
+      def self.find(uuid)
+        Acme::Models::Spline.new(uuid: uuid)
+      end
+
+      def save!
+      end
+
+      def destroy
+      end
     end
   end
 end
