@@ -42,7 +42,7 @@ GEM
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
     futuroscope (0.1.11)
-    grape (0.8.0)
+    grape (0.10.0)
       activesupport
       builder
       hashie (>= 2.1.0)
@@ -52,13 +52,16 @@ GEM
       rack-accept
       rack-mount
       virtus (>= 1.0.0)
+    grape-entity (0.4.4)
+      activesupport
+      multi_json (>= 1.3.2)
     grape-roar (0.1.0)
       grape
       roar
-    grape-swagger (0.6.0)
-      grape (>= 0.2.0)
-      kramdown
-    hashie (3.2.0)
+    grape-swagger (0.9.0)
+      grape (>= 0.8.0)
+      grape-entity
+    hashie (3.3.2)
     hyperclient (0.6.1)
       faraday (~> 0.8)
       faraday-digestauth (~> 0.2)
@@ -66,15 +69,14 @@ GEM
       futuroscope (>= 0.0.10)
       net-http-digest_auth (~> 1.2)
       uri_template (~> 0.5)
-    i18n (0.6.11)
-    ice_nine (0.11.0)
+    i18n (0.7.0)
+    ice_nine (0.11.1)
     json (1.8.1)
     kaminari (0.15.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    kramdown (1.4.0)
     mini_portile (0.6.0)
-    minitest (5.4.0)
+    minitest (5.5.0)
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -122,24 +124,24 @@ GEM
     ruby-progressbar (1.6.0)
     slop (3.6.0)
     thread_safe (0.3.4)
-    tzinfo (1.2.1)
+    tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uber (0.0.7)
     uri_template (0.7.0)
-    virtus (1.0.2)
+    virtus (1.0.3)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
-      descendants_tracker (~> 0.0.3)
-      equalizer (~> 0.0.9)
+      descendants_tracker (~> 0.0, >= 0.0.3)
+      equalizer (~> 0.0, >= 0.0.9)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   activemodel
-  grape (~> 0.8.0)
+  grape (~> 0.10.0)
   grape-roar (~> 0.1.0)
-  grape-swagger (~> 0.6.0)
+  grape-swagger (~> 0.9.0)
   hyperclient (~> 0.6.1)
   kaminari (~> 0.14.x)
   rack-cors (~> 0.2.8)

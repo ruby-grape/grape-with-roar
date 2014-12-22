@@ -1,9 +1,9 @@
 source 'http://rubygems.org'
 
-gem 'grape', '~> 0.8.0'
+gem 'grape', '~> 0.10.0'
 gem 'grape-roar', '~> 0.1.0'
 gem 'rack-cors', '~> 0.2.8'
-gem 'grape-swagger', '~> 0.6.0'
+gem 'grape-swagger', '~> 0.9.0'
 gem 'activemodel'
 gem 'kaminari', '~> 0.14.x', require: 'kaminari/grape'
 
