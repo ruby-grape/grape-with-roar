@@ -1,7 +1,9 @@
 Grape API with Roar
 ===================
 
-[![Build Status](https://secure.travis-ci.org/dblock/grape-with-roar.png)](http://travis-ci.org/dblock/grape-with-roar)
+[![Build Status](http://img.shields.io/travis/dblock/grape-with-roar.svg)](https://travis-ci.org/dblock/grape-with-roar)
+[![Dependency Status](https://gemnasium.com/dblock/grape-with-roar.svg)](https://gemnasium.com/dblock/grape-with-roar)
+[![Code Climate](https://codeclimate.com/github/dblock/grape-with-roar.svg)](https://codeclimate.com/github/dblock/grape-with-roar)
 
 A [Grape](http://github.com/intridea/grape) API that uses [Roar](https://github.com/apotonick/roar).
 
