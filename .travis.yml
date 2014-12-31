@@ -7,3 +7,6 @@ rvm:
 language: ruby
 
 cache: bundler
+
+before_script:
+  - bundle exec rake db:create db:migrate RACK_ENV=test

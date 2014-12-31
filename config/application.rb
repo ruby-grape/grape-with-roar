@@ -6,7 +6,6 @@ require 'boot'
 
 Bundler.require :default, ENV['RACK_ENV']
 
-require 'roar/representer'
 require 'roar/json'
 require 'roar/json/hal'
 

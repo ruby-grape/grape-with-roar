@@ -6,16 +6,17 @@ module Acme
       namespace :splines do
         desc 'Get a spline.'
         params do
-          requires :uuid, type: String, desc: 'Spline id.'
+          requires :id, type: String, desc: 'Spline id.'
         end
-        get ':uuid' do
-          spline = Acme::Models::Spline.new(uuid: params[:uuid])
+        get ':id' do
+          spline = Acme::Models::Spline.find(params[:id])
           present spline, with: Acme::Api::Presenters::SplinePresenter
         end
 
         desc 'Create a spline.'
         params do
           requires :spline, type: Hash do
+            optional :name, type: String, default: false
             optional :reticulated, type: Boolean, default: false
           end # Acme::Api::Presenters::SplinePresenter
         end
@@ -26,22 +27,23 @@ module Acme
 
         desc 'Update an existing spline.'
         params do
-          requires :uuid, type: String, desc: 'Spline id.'
+          requires :id, type: String, desc: 'Spline id.'
           requires :spline, type: Hash do
+            optional :name, type: String, default: false
             optional :reticulated, type: Boolean, default: false
           end # Acme::Api::Presenters::SplinePresenter
         end
-        put ':uuid' do
-          spline = Acme::Models::Spline.find(params[:uuid])
+        put ':id' do
+          spline = Acme::Models::Spline.find(params[:id])
           update spline, with: Acme::Api::Presenters::SplinePresenter, from: params[:spline]
         end
 
         desc 'Delete an existing spline.'
         params do
-          requires :uuid, type: String, desc: 'Spline id.'
+          requires :id, type: String, desc: 'Spline id.'
         end
-        delete ':uuid' do
-          spline = Acme::Models::Spline.find(params[:uuid])
+        delete ':id' do
+          spline = Acme::Models::Spline.find(params[:id])
           delete spline, with: Acme::Api::Presenters::SplinePresenter
         end
 

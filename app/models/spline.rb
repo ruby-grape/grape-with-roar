@@ -1,30 +1,7 @@
 module Acme
   module Models
-    class Spline
-      include ActiveModel::Model
-
-      attr_accessor :uuid
-      attr_accessor :reticulated
-
-      def initialize(attrs = { reticulated: [true, false].sample })
-        super(attrs)
-        @uuid ||= SecureRandom.uuid
-        @reticulated = !!attrs[:reticulated]
-      end
-
-      def self.all
-        42.times.map { Acme::Models::Spline.new }
-      end
-
-      def self.find(uuid)
-        Acme::Models::Spline.new(uuid: uuid)
-      end
-
-      def save!
-      end
-
-      def destroy
-      end
+    class Spline < ActiveRecord::Base
+      attr_accessible :name, :reticulated
     end
   end
 end

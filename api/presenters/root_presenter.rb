@@ -23,7 +23,7 @@ module Acme
 
         link :spline do |opts|
           {
-            href: "#{base_url(opts)}/api/splines/{uuid}",
+            href: "#{base_url(opts)}/api/splines/{id}",
             templated: true
           }
         end

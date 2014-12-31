@@ -1,22 +1,18 @@
 Grape API with Roar
 ===================
 
-[![Build Status](http://img.shields.io/travis/dblock/grape-with-roar.svg)](https://travis-ci.org/dblock/grape-with-roar)
-[![Dependency Status](https://gemnasium.com/dblock/grape-with-roar.svg)](https://gemnasium.com/dblock/grape-with-roar)
-[![Code Climate](https://codeclimate.com/github/dblock/grape-with-roar.svg)](https://codeclimate.com/github/dblock/grape-with-roar)
+[![Build Status](http://img.shields.io/travis/dblock/grape-with-roar.svg?branch=with_activerecord)](https://travis-ci.org/dblock/grape-with-roar?branch=with_activerecord)
+[![Dependency Status](https://gemnasium.com/dblock/grape-with-roar.svg?branch=with_activerecord)](https://gemnasium.com/dblock/grape-with-roar?branch=with_activerecord)
+[![Code Climate](https://codeclimate.com/github/dblock/grape-with-roar.svg?branch=with_activerecord)](https://codeclimate.com/github/dblock/grape-with-roar?branch=with_activerecord)
 
-A [Grape](http://github.com/intridea/grape) API that uses [Roar](https://github.com/apotonick/roar).
-
-See
----
-
-Try me [here](http://grape-with-roar.herokuapp.com/). In Chrome, best viewed with the [JSONView Plugin](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en).
+A [Grape](http://github.com/intridea/grape) API that uses [Roar](https://github.com/apotonick/roar) and ActiveRecord with a PostgreSQL database.
 
 Run
 ---
 
 ```
 $ bundle install
+$ rake db:create db:migrate
 $ rackup
 
 [2013-06-20 08:57:58] INFO  WEBrick 1.3.1

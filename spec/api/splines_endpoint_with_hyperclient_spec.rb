@@ -16,6 +16,12 @@ describe Acme::Api::SplinesEndpoint do
   end
 
   context 'splines' do
+    before(:each) do
+      3.times do
+        Fabricate(:acme_models_spline)
+      end
+    end
+
     it 'returns 3 splines by default' do
       expect(client.splines({}).count).to eq 3
     end
@@ -31,34 +37,36 @@ describe Acme::Api::SplinesEndpoint do
       expect(response._links.self._url).to eq 'http://example.org/api/splines?page=2&size=2'
     end
 
-    it 'returns all unique uuids' do
+    it 'returns all unique ids' do
       splines = client.splines({})
-      expect(splines.map(&:uuid).uniq.count).to eq 3
+      expect(splines.map(&:id).uniq.count).to eq 3
     end
   end
 
   context 'spline' do
+    let(:spline1) { Fabricate(:acme_models_spline) }
+
     it 'creates a spline' do
       spline = client.splines._post(spline: { reticulated: true })
-      expect(spline.uuid).to_not be_blank
+      expect(spline.id).to_not be_blank
       expect(spline.reticulated).to be true
     end
 
     it 'updates a spline' do
-      spline = client.spline(uuid: '123')._put(spline: { reticulated: true })
-      expect(spline.uuid).to eq '123'
+      spline = client.spline(id: spline1.id)._put(spline: { reticulated: true })
+      expect(spline.id).to eq spline1.id
       expect(spline.reticulated).to be true
     end
 
     it 'deletes a spline' do
-      spline = client.spline(uuid: '123')._delete
-      expect(spline.uuid).to eq '123'
+      spline = client.spline(id: spline1.id)._delete
+      expect(spline.id).to eq spline1.id
     end
 
     it 'returns a spline' do
-      spline = client.spline(uuid: '123')
-      expect(spline.uuid).to eq '123'
-      expect(spline._links['images:thumbnail']._url).to eq 'http://example.org/api/splines/123/images/thumbnail.jpg'
+      spline = client.spline(id: spline1.id)
+      expect(spline.id).to eq spline1.id
+      expect(spline._links['images:thumbnail']._url).to eq "http://example.org/api/splines/#{spline1.id}/images/thumbnail.jpg"
     end
   end
 end
