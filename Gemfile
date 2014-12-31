@@ -2,10 +2,10 @@ source 'http://rubygems.org'
 
 gem 'grape', '~> 0.10.1'
 gem 'grape-roar', '~> 0.3.0'
-gem 'rack-cors', '~> 0.2.8'
+gem 'rack-cors', '~> 0.3.1'
 gem 'grape-swagger', '~> 0.9.0'
-gem 'activemodel'
-gem 'kaminari', '~> 0.14.x', require: 'kaminari/grape'
+gem 'activemodel', '~> 4.2.0'
+gem 'kaminari', '~> 0.16.1', require: 'kaminari/grape'
 
 group :development do
   gem 'rake'
