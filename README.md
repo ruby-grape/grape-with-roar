@@ -29,6 +29,11 @@ Hyperclient
 
 This is a good demo to use with [Hyperclient](https://github.com/codegram/hyperclient). Check out [splines_endpoint_with_hyperclient_spec.rb](/spec/api/splines_endpoint_with_hyperclient_spec.rb) for a complete example that retrieves, creates, updates and deletes splines.
 
+ActiveModel
+-----------
+
+This branch uses ActiveRecord with a PostgreSQL database and defines a [Spline](app/models/spline.rb) model. Check out the [master branch](https://github.com/dblock/grape-with-roar) for an example using ActiveModel.
+
 Copyright and License
 ---------------------
 
