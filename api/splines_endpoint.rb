@@ -47,7 +47,7 @@ module Acme
 
         desc 'Get all the splines.'
         params do
-          optional :page, type: Integer, default: 1, desc: 'Number of splines to return.'
+          optional :page, type: Integer, default: 1, desc: 'Page of splines to return.'
           optional :size, type: Integer, default: 3, desc: 'Number of splines to return.'
         end
         get do
