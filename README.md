@@ -1,11 +1,11 @@
 Grape API with Roar
 ===================
 
-[![Build Status](http://img.shields.io/travis/dblock/grape-with-roar.svg)](https://travis-ci.org/dblock/grape-with-roar)
-[![Dependency Status](https://gemnasium.com/dblock/grape-with-roar.svg)](https://gemnasium.com/dblock/grape-with-roar)
-[![Code Climate](https://codeclimate.com/github/dblock/grape-with-roar.svg)](https://codeclimate.com/github/dblock/grape-with-roar)
+[![Build Status](https://travis-ci.org/ruby-grape/grape-with-roar.svg?branch=master)](https://travis-ci.org/ruby-grape/grape-with-roar)
+[![Dependency Status](https://gemnasium.com/ruby-grape/grape-with-roar.svg)](https://gemnasium.com/ruby-grape/grape-with-roar)
+[![Code Climate](https://codeclimate.com/github/ruby-grape/grape-with-roar.svg)](https://codeclimate.com/github/ruby-grape/grape-with-roar)
 
-A [Grape](http://github.com/intridea/grape) API that uses [Roar](https://github.com/apotonick/roar).
+A [Grape](http://github.com/ruby-grape/grape) API that uses [Roar](https://github.com/apotonick/roar).
 
 See
 ---
@@ -36,7 +36,7 @@ This is a good demo to use with [Hyperclient](https://github.com/codegram/hyperc
 ActiveRecord
 ------------
 
-This project uses ActiveModel and defines a dummy [Spline](app/models/spline.rb) class. Check out the [with-activerecord branch](https://github.com/dblock/grape-with-roar/tree/with-activerecord) for a complete example that uses ActiveRecord and a PostgreSQL database.
+This project uses ActiveModel and defines a dummy [Spline](app/models/spline.rb) class. Check out the [with-activerecord branch](https://github.com/ruby-grape/grape-with-roar/tree/with-activerecord) for a complete example that uses ActiveRecord and a PostgreSQL database.
 
 Copyright and License
 ---------------------

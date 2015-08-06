@@ -20,8 +20,7 @@ module Acme
           end # Acme::Api::Presenters::SplinePresenter
         end
         post do
-          spline = create Acme::Models::Spline, with: Acme::Api::Presenters::SplinePresenter, from: params[:spline]
-          present spline, with: Acme::Api::Presenters::SplinePresenter
+          create Acme::Models::Spline, with: Acme::Api::Presenters::SplinePresenter, from: params[:spline]
         end
 
         desc 'Update an existing spline.'
