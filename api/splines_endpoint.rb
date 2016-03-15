@@ -2,6 +2,10 @@ module Acme
   module Api
     class SplinesEndpoint < Grape::API
       format :json
+      parser 'hal+json', Grape::Parser::Json
+
+      content_type 'hal+json', 'application/hal+json'
+      content_type :json, 'application/json'
 
       namespace :splines do
         desc 'Get a spline.'
