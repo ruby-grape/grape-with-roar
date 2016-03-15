@@ -20,7 +20,7 @@ module Acme
 
         # rewrite HAL links to make them clickable in a browser
         use Rack::Rewrite do
-          r302 %r{^(\/api\/\w*\/)(%7B|\{)?(.*)(%7D|\})$}, '$1'
+          r302 %r{^([\/\w]*)(%7B|\{)?(.*)(%7D|\})$}, '$1'
         end
 
         run Acme::App.new
