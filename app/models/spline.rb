@@ -13,7 +13,7 @@ module Acme
       end
 
       def self.all
-        42.times.map { Acme::Models::Spline.new }
+        Array.new(42) { Acme::Models::Spline.new }
       end
 
       def self.find(uuid)

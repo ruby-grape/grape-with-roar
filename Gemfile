@@ -1,19 +1,19 @@
 source 'http://rubygems.org'
 
-gem 'grape', '~> 0.12.0'
-gem 'grape-roar', '~> 0.3.0'
-gem 'rack-cors', '~> 0.3.1'
-gem 'grape-swagger', '~> 0.10.1'
-gem 'activemodel', '~> 4.2.0'
-gem 'kaminari', '~> 0.16.1', require: 'kaminari/grape'
+gem 'grape'
+gem 'grape-roar'
+gem 'rack-cors'
+gem 'grape-swagger'
+gem 'activemodel'
+gem 'kaminari', require: 'kaminari/grape'
 
 group :development do
   gem 'rake'
-  gem 'rubocop', '0.33.0'
+  gem 'rubocop'
 end
 
 group :test do
-  gem 'rspec', '~> 3.0'
-  gem 'rack-test', '~> 0.6.2'
-  gem 'hyperclient', '~> 0.6.1'
+  gem 'rspec'
+  gem 'rack-test'
+  gem 'hyperclient'
 end

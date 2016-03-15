@@ -7,6 +7,7 @@ describe Acme::Api::SplinesEndpoint do
 
   let(:client) do
     Hyperclient.new('http://example.org/api') do |client|
+      client.headers['Content-Type'] = 'application/json'
       client.connection(default: false) do |conn|
         conn.request :json
         conn.response :json
@@ -58,6 +59,8 @@ describe Acme::Api::SplinesEndpoint do
     it 'returns a spline' do
       spline = client.spline(uuid: '123')
       expect(spline.uuid).to eq '123'
+      # TODO: we should be able to expand the curie on spline._links['images:thumbnail']
+      expect(spline._links._curies['images'].expand('thumbnail')).to eq 'http://example.org/docs/splines/images/thumbnail'
       expect(spline._links['images:thumbnail']._url).to eq 'http://example.org/api/splines/123/images/thumbnail.jpg'
     end
   end

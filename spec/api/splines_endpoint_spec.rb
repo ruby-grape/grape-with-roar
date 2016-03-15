@@ -71,8 +71,8 @@ describe Acme::Api::SplinesEndpoint do
       json = JSON.parse(last_response.body)
       expect(json['uuid']).to eq '123'
       expect(json['_links']['self']['href']).to eq 'http://example.org/api/splines/123'
-      expect(json['_links']['curies']).to eq([{ 'name' => 'images', 'href' => 'http://example.org/api/splines/123/images/{rel}', 'templated' => true }])
-      expect(json['_links']['images:thumbnail']['href']).to eq 'thumbnail.jpg'
+      expect(json['_links']['curies']).to eq([{ 'name' => 'images', 'href' => 'http://example.org/docs/splines/images/{rel}', 'templated' => true }])
+      expect(json['_links']['images:thumbnail']['href']).to eq 'http://example.org/api/splines/123/images/thumbnail.jpg'
     end
   end
 end
