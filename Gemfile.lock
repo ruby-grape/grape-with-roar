@@ -80,6 +80,7 @@ GEM
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    kgio (2.10.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mini_portile2 (2.0.0)
@@ -111,6 +112,7 @@ GEM
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
     rainbow (2.1.0)
+    raindrops (0.15.0)
     rake (11.1.1)
     representable (2.3.0)
       uber (~> 0.0.7)
@@ -141,6 +143,10 @@ GEM
       thread_safe (~> 0.1)
     uber (0.0.15)
     unicode-display_width (1.0.2)
+    unicorn (5.0.1)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
     uri_template (0.7.0)
     virtus (1.0.5)
       axiom-types (~> 0.1)
@@ -164,6 +170,7 @@ DEPENDENCIES
   rake
   rspec
   rubocop
+  unicorn
 
 BUNDLED WITH
    1.10.6
