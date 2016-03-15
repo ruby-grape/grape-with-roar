@@ -6,6 +6,7 @@ gem 'rack-cors'
 gem 'grape-swagger'
 gem 'activemodel'
 gem 'kaminari', require: 'kaminari/grape'
+gem 'rack-rewrite'
 
 group :development do
   gem 'rake'

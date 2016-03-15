@@ -99,6 +99,7 @@ GEM
     rack-cors (0.4.0)
     rack-mount (0.8.3)
       rack (>= 1.0.0)
+    rack-rewrite (1.4.1)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails-deprecated_sanitizer (1.0.3)
@@ -158,6 +159,7 @@ DEPENDENCIES
   hyperclient
   kaminari
   rack-cors
+  rack-rewrite
   rack-test
   rake
   rspec
