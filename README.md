@@ -41,6 +41,6 @@ This project uses ActiveModel and defines a dummy [Spline](app/models/spline.rb)
 Copyright and License
 ---------------------
 
-Copyright (c) 2014 Daniel Doubrovkine
+Copyright (c) 2014-2016 Daniel Doubrovkine
 
 MIT License, see [LICENSE](LICENSE) for details.
