@@ -7,7 +7,7 @@ gem 'grape-swagger'
 gem 'activemodel'
 gem 'kaminari', require: 'kaminari/grape'
 gem 'rack-rewrite'
-gem 'unicorn'
+gem 'puma'
 
 group :development do
   gem 'rake'
