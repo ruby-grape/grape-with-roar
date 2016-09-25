@@ -6,12 +6,13 @@ module Acme
         include Roar::Hypermedia
         include Grape::Roar::Representer
 
-        property :uuid, writeable: false, type: String, desc: 'Spline unique ID.'
+        property :id_s, as: :id, writeable: false, type: String, desc: 'Spline unique ID.'
+        property :name, type: String, desc: 'Spline name.'
         property :reticulated, type: Grape::API::Boolean, default: false, desc: 'True if spline is reticulated.'
 
         link :self do |opts|
           request = Grape::Request.new(opts[:env])
-          "#{request.base_url}/api/splines/#{uuid}"
+          "#{request.base_url}/api/splines/#{id_s}"
         end
 
         curies do |opts|
@@ -25,7 +26,13 @@ module Acme
 
         link 'images:thumbnail' do |opts|
           request = Grape::Request.new(opts[:env])
-          "#{request.base_url}/api/splines/#{uuid}/images/thumbnail.jpg"
+          "#{request.base_url}/api/splines/#{id_s}/images/thumbnail.jpg"
+        end
+
+        private
+
+        def id_s
+          id.to_s
         end
       end
     end

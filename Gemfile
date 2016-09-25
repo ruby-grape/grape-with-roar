@@ -5,9 +5,10 @@ gem 'grape-roar'
 gem 'rack-cors'
 gem 'grape-swagger'
 gem 'activemodel'
-gem 'kaminari', require: 'kaminari/grape'
 gem 'rack-rewrite'
 gem 'puma'
+gem 'mongoid', '~> 5.0'
+gem 'mongoid-scroll'
 
 group :development do
   gem 'rake'
@@ -18,4 +19,7 @@ group :test do
   gem 'rspec'
   gem 'rack-test'
   gem 'hyperclient'
+  gem 'database_cleaner'
+  gem 'fabrication'
+  gem 'faker'
 end

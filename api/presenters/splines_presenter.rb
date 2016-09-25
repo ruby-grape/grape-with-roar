@@ -10,7 +10,13 @@ module Acme
         include Grape::Roar::Representer
         include Acme::Api::Presenters::PaginatedPresenter
 
-        collection :to_a, extend: SplinePresenter, as: :splines, embedded: true
+        collection :results, extend: SplinePresenter, as: :splines, embedded: true
+
+        private
+
+        def results
+          self[:results]
+        end
       end
     end
   end

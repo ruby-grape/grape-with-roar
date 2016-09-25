@@ -1,30 +1,10 @@
 module Acme
   module Models
     class Spline
-      include ActiveModel::Model
+      include Mongoid::Document
 
-      attr_accessor :uuid
-      attr_accessor :reticulated
-
-      def initialize(attrs = { reticulated: [true, false].sample })
-        super(attrs)
-        @uuid ||= SecureRandom.uuid
-        @reticulated = !!attrs[:reticulated]
-      end
-
-      def self.all
-        Array.new(42) { Acme::Models::Spline.new }
-      end
-
-      def self.find(uuid)
-        Acme::Models::Spline.new(uuid: uuid)
-      end
-
-      def save!
-      end
-
-      def destroy
-      end
+      field :name, type: String
+      field :reticulated, type: Boolean, default: false
     end
   end
 end

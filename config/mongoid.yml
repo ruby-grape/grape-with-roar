@@ -1,0 +1,18 @@
+development:
+  clients:
+    default:
+      database: grape-with-roar_development
+      hosts:
+        - 127.0.0.1:27017
+
+test:
+  clients:
+    default:
+      database: grape-with-roar_test
+      hosts:
+        - 127.0.0.1:27017
+
+production:
+  clients:
+    default:
+      uri: <%= ENV['MONGO_URL'] || ENV['MONGOHQ_URI'] || ENV['MONGOLAB_URI'] %>
