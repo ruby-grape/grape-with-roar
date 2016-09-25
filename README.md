@@ -1,16 +1,11 @@
-Grape API with Roar
-===================
+Grape API with Roar & Mongoid
+=============================
 
-[![Build Status](https://travis-ci.org/ruby-grape/grape-with-roar.svg?branch=master)](https://travis-ci.org/ruby-grape/grape-with-roar)
-[![Dependency Status](https://gemnasium.com/ruby-grape/grape-with-roar.svg)](https://gemnasium.com/ruby-grape/grape-with-roar)
-[![Code Climate](https://codeclimate.com/github/ruby-grape/grape-with-roar.svg)](https://codeclimate.com/github/ruby-grape/grape-with-roar)
+[![Build Status](https://travis-ci.org/ruby-grape/grape-with-roar.svg?branch=with_mongoid)](https://travis-ci.org/ruby-grape/grape-with-roar?branch=with_mongoid)
+[![Dependency Status](https://gemnasium.com/ruby-grape/grape-with-roar.svg?branch=with_mongoid)](https://gemnasium.com/ruby-grape/grape-with-roar?branch=with_mongoid)
+[![Code Climate](https://codeclimate.com/github/ruby-grape/grape-with-roar.svg?branch=with_mongoid)](https://codeclimate.com/github/ruby-grape/grape-with-roar?branch=with_mongoid)
 
-A [Grape](http://github.com/ruby-grape/grape) API that uses [Roar](https://github.com/apotonick/roar).
-
-See
----
-
-Try me [here](http://grape-with-roar.herokuapp.com/). In Chrome, best viewed with the [JSONView Plugin](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en).
+A [Grape](http://github.com/ruby-grape/grape) API that uses [Roar](https://github.com/apotonick/roar) and Mongoid with a MongoDB database.
 
 Run
 ---
@@ -36,7 +31,7 @@ This is a good demo to use with [Hyperclient](https://github.com/codegram/hyperc
 ActiveRecord
 ------------
 
-This project uses ActiveModel and defines a dummy [Spline](app/models/spline.rb) class. Check out the [with-activerecord branch](https://github.com/ruby-grape/grape-with-roar/tree/with-activerecord) for a complete example that uses ActiveRecord and a PostgreSQL database.
+This project uses Mongoid and defines a dummy [Spline](app/models/spline.rb) class. Check out the [master branch](https://github.com/ruby-grape/grape-with-roar) for a complete example that uses ActiveModel and [with-activerecord branch](https://github.com/ruby-grape/grape-with-roar/tree/with-activerecord) for a complete example that uses ActiveRecord and a PostgreSQL database.
 
 Copyright and License
 ---------------------

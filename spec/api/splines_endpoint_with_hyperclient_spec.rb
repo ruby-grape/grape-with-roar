@@ -17,6 +17,12 @@ describe Acme::Api::SplinesEndpoint do
   end
 
   context 'splines' do
+    before(:each) do
+      3.times do
+        Fabricate(:acme_models_spline)
+      end
+    end
+
     it 'returns 3 splines by default' do
       expect(client.splines({}).count).to eq 3
     end
@@ -26,42 +32,43 @@ describe Acme::Api::SplinesEndpoint do
     end
 
     it 'returns pagination' do
-      response = client.splines(size: 2, page: 2)
-      expect(response._links.next._url).to eq 'http://example.org/api/splines?page=3&size=2'
-      expect(response._links.prev._url).to eq 'http://example.org/api/splines?page=1&size=2'
-      expect(response._links.self._url).to eq 'http://example.org/api/splines?page=2&size=2'
+      response = client.splines(size: 2)
+      expect(response._links.self._url).to eq 'http://example.org/api/splines?size=2'
+      expect(response._links.next._url).to match(%r{^http\:\/\/example.org\/api\/splines\?cursor=.*size=2$})
     end
 
-    it 'returns all unique uuids' do
+    it 'returns all unique ids' do
       splines = client.splines({})
-      expect(splines.map(&:uuid).uniq.count).to eq 3
+      expect(splines.map(&:id).uniq.count).to eq 3
     end
   end
 
   context 'spline' do
+    let(:spline1) { Fabricate(:acme_models_spline) }
+
     it 'creates a spline' do
       spline = client.splines._post(spline: { reticulated: true })
-      expect(spline.uuid).to_not be_blank
+      expect(spline.id).to_not be_blank
       expect(spline.reticulated).to be true
     end
 
     it 'updates a spline' do
-      spline = client.spline(uuid: '123')._put(spline: { reticulated: true })
-      expect(spline.uuid).to eq '123'
+      spline = client.spline(id: spline1.id)._put(spline: { reticulated: true })
+      expect(spline.id).to eq spline1.id.to_s
       expect(spline.reticulated).to be true
     end
 
     it 'deletes a spline' do
-      spline = client.spline(uuid: '123')._delete
-      expect(spline.uuid).to eq '123'
+      spline = client.spline(id: spline1.id)._delete
+      expect(spline.id).to eq spline1.id.to_s
     end
 
     it 'returns a spline' do
-      spline = client.spline(uuid: '123')
-      expect(spline.uuid).to eq '123'
+      spline = client.spline(id: spline1.id)
+      expect(spline.id).to eq spline1.id.to_s
       # TODO: we should be able to expand the curie on spline._links['images:thumbnail']
       expect(spline._links._curies['images'].expand('thumbnail')).to eq 'http://example.org/docs/splines/images/thumbnail'
-      expect(spline._links['images:thumbnail']._url).to eq 'http://example.org/api/splines/123/images/thumbnail.jpg'
+      expect(spline._links['images:thumbnail']._url).to eq "http://example.org/api/splines/#{spline1.id}/images/thumbnail.jpg"
     end
   end
 end
