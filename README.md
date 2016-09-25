@@ -19,6 +19,40 @@ $ rackup
 [2013-06-20 08:57:58] INFO  WEBrick::HTTPServer#start: pid=247 port=9292
 ```
 
+Try with Hyperclient and `irb`.
+
+```
+require 'hyperclient'
+```
+
+Create some splines.
+
+```ruby
+client = Hyperclient.new('http://localhost:9292/api')
+
+3.times do |i|
+  client.splines._post(spline: { name: i.to_s, reticulated: [true, false].sample })
+end
+```
+
+Show splines.
+
+```ruby
+client = Hyperclient.new('http://localhost:9292/api')
+
+client.splines.each do |spline|
+  puts "spline #{spline.id} #{spline.reticulated ? 'is' : 'is not'} reticulated"
+end
+```
+
+Delete splines.
+
+```ruby
+client = Hyperclient.new('http://localhost:9292/api')
+
+client.splines.each(&:_delete)
+```
+
 ### Hello World
 
 Navigate to [localhost:9292/api](http://localhost:9292/api) with a browser. This is a hypermedia API, so all links are clickable.

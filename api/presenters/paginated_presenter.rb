@@ -11,7 +11,7 @@ module Acme
         end
 
         link :next do |opts|
-          "#{request_url(opts)}#{query_string_for_cursor(represented[:next], opts)}" if represented.key?(:next)
+          "#{request_url(opts)}#{query_string_for_cursor(represented[:next], opts)}" if represented[:next]
         end
 
         private
