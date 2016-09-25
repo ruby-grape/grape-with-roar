@@ -2,6 +2,10 @@ module Acme
   module Api
     class SplinesEndpoint < Grape::API
       format :json
+      parser 'hal+json', Grape::Parser::Json
+
+      content_type 'hal+json', 'application/hal+json'
+      content_type :json, 'application/json'
 
       namespace :splines do
         desc 'Get a spline.'
@@ -21,8 +25,7 @@ module Acme
           end # Acme::Api::Presenters::SplinePresenter
         end
         post do
-          spline = create Acme::Models::Spline, with: Acme::Api::Presenters::SplinePresenter, from: params[:spline]
-          present spline, with: Acme::Api::Presenters::SplinePresenter
+          create Acme::Models::Spline, with: Acme::Api::Presenters::SplinePresenter, from: params[:spline]
         end
 
         desc 'Update an existing spline.'
@@ -49,7 +52,7 @@ module Acme
 
         desc 'Get all the splines.'
         params do
-          optional :page, type: Integer, default: 1, desc: 'Number of splines to return.'
+          optional :page, type: Integer, default: 1, desc: 'Page of splines to return.'
           optional :size, type: Integer, default: 3, desc: 'Number of splines to return.'
         end
         get do

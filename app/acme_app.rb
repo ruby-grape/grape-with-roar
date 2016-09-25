@@ -6,7 +6,7 @@ module Acme
         -> { [404, {}, []] },
         root: File.expand_path('../../public', __FILE__),
         urls: ['/']
-        )
+      )
     end
 
     def self.instance
@@ -16,6 +16,11 @@ module Acme
             origins '*'
             resource '*', headers: :any, methods: :get
           end
+        end
+
+        # rewrite HAL links to make them clickable in a browser
+        use Rack::Rewrite do
+          r302 %r{^([\/\w]*)(%7B|\{)?(.*)(%7D|\})$}, '$1'
         end
 
         run Acme::App.new
