@@ -25,4 +25,14 @@ describe Acme::Api::RootEndpoint do
       expect(JSON.parse(last_response.body)).to_not eq({})
     end
   end
+  it 'rewrites encoded HAL links to make them clickable' do
+    get '/api/splines/%7B?cursor,size%7D'
+    expect(last_response.status).to eq 302
+    expect(last_response.headers['Location']).to eq '/api/splines/'
+  end
+  it 'rewrites encoded HAL links without a trailing slash to make them clickable' do
+    get '/api/splines%7B?cursor,size%7D'
+    expect(last_response.status).to eq 302
+    expect(last_response.headers['Location']).to eq '/api/splines'
+  end
 end
