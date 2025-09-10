@@ -1,16 +1,9 @@
 Grape API with Roar
 ===================
 
-[![Build Status](https://travis-ci.org/ruby-grape/grape-with-roar.svg?branch=master)](https://travis-ci.org/ruby-grape/grape-with-roar)
-[![Dependency Status](https://gemnasium.com/ruby-grape/grape-with-roar.svg)](https://gemnasium.com/ruby-grape/grape-with-roar)
-[![Code Climate](https://codeclimate.com/github/ruby-grape/grape-with-roar.svg)](https://codeclimate.com/github/ruby-grape/grape-with-roar)
+[![test](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml/badge.svg)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml)
 
 A [Grape](http://github.com/ruby-grape/grape) API that uses [Roar](https://github.com/apotonick/roar).
-
-See
----
-
-Try me [here](http://grape-with-roar.herokuapp.com/). In Chrome, best viewed with the [JSONView Plugin](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en).
 
 Run
 ---
@@ -24,9 +17,9 @@ $ rackup
 [2013-06-20 08:57:58] INFO  WEBrick::HTTPServer#start: pid=247 port=9292
 ```
 
-### Hello World
-
 Navigate to [localhost:9292/api](http://localhost:9292/api) with a browser. This is a hypermedia API, so all links are clickable.
+
+In Chrome, best viewed with the [JSONView Plugin](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en).
 
 Hyperclient
 -----------
@@ -51,6 +44,6 @@ Check out the [with-mongoid branch](https://github.com/ruby-grape/grape-with-roa
 Copyright and License
 ---------------------
 
-Copyright (c) 2014-2016 Daniel Doubrovkine
+Copyright (c) 2014-2025 Daniel Doubrovkine
 
 MIT License, see [LICENSE](LICENSE) for details.
