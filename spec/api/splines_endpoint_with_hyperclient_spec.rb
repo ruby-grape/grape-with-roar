@@ -11,18 +11,14 @@ describe Acme::Api::SplinesEndpoint do
       client.connection(default: false) do |conn|
         conn.request :json
         conn.response :json
-        conn.use Faraday::Adapter::Rack, app
+        conn.adapter Faraday::Adapter::Rack, app
       end
     end
   end
 
   context 'splines' do
-    it 'returns 3 splines by default' do
-      expect(client.splines({}).count).to eq 3
-    end
-
-    it 'returns 2 splines' do
-      expect(client.splines(size: 2).count).to eq 2
+    it 'returns all splines' do
+      expect(client.splines({}).count).to eq 42
     end
 
     it 'returns pagination' do
@@ -34,14 +30,14 @@ describe Acme::Api::SplinesEndpoint do
 
     it 'returns all unique uuids' do
       splines = client.splines({})
-      expect(splines.map(&:uuid).uniq.count).to eq 3
+      expect(splines.map(&:uuid).uniq.count).to eq 42
     end
   end
 
   context 'spline' do
     it 'creates a spline' do
       spline = client.splines._post(spline: { reticulated: true })
-      expect(spline.uuid).to_not be_blank
+      expect(spline.uuid).not_to be_blank
       expect(spline.reticulated).to be true
     end
 

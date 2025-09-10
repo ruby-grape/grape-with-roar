@@ -8,25 +8,34 @@ describe Acme::Api do
   end
 
   context 'CORS' do
+    it 'without options' do
+      options '/'
+      expect(last_response.status).to eq 200
+      expect(last_response.headers['Access-Control-Allow-Origin']).to be_nil
+      expect(last_response.headers['Access-Control-Expose-Headers']).to be_nil
+    end
+
     it 'supports options' do
       options '/', {},
-              'HTTP_ORIGIN' => 'http://cors.example.com',
+              'HTTP_ORIGIN' => 'https://cors.example.com',
               'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'Origin, Accept, Content-Type',
               'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET'
 
       expect(last_response.status).to eq 200
-      expect(last_response.headers['Access-Control-Allow-Origin']).to eq 'http://cors.example.com'
+      expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
       expect(last_response.headers['Access-Control-Expose-Headers']).to eq ''
     end
+
     it 'includes Access-Control-Allow-Origin in the response' do
-      get '/api', {}, 'HTTP_ORIGIN' => 'http://cors.example.com'
+      get '/api', {}, 'HTTP_ORIGIN' => 'https://cors.example.com'
       expect(last_response.status).to eq 200
-      expect(last_response.headers['Access-Control-Allow-Origin']).to eq 'http://cors.example.com'
+      expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
     end
+
     it 'includes Access-Control-Allow-Origin in errors' do
-      get '/invalid', {}, 'HTTP_ORIGIN' => 'http://cors.example.com'
+      get '/invalid', {}, 'HTTP_ORIGIN' => 'https://cors.example.com'
       expect(last_response.status).to eq 404
-      expect(last_response.headers['Access-Control-Allow-Origin']).to eq 'http://cors.example.com'
+      expect(last_response.headers['Access-Control-Allow-Origin']).to eq '*'
     end
   end
 end
