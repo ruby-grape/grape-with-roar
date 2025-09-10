@@ -4,7 +4,7 @@ module Acme
       @filenames = ['', '.html', 'index.html', '/index.html']
       @rack_static = ::Rack::Static.new(
         -> { [404, {}, []] },
-        root: File.expand_path('../../public', __FILE__),
+        root: File.expand_path('../public', __dir__),
         urls: ['/']
       )
     end
@@ -20,7 +20,7 @@ module Acme
 
         # rewrite HAL links to make them clickable in a browser
         use Rack::Rewrite do
-          r302 %r{^([\/\w]*)(%7B|\{)?(.*)(%7D|\})$}, '$1'
+          r302 %r{^([/\w]*)(%7B|\{)?(.*)(%7D|\})$}, '$1'
         end
 
         run Acme::App.new

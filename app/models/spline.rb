@@ -3,11 +3,10 @@ module Acme
     class Spline
       include ActiveModel::Model
 
-      attr_accessor :uuid
-      attr_accessor :reticulated
+      attr_accessor :uuid, :reticulated
 
       def initialize(attrs = { reticulated: [true, false].sample })
-        super(attrs)
+        super
         @uuid ||= SecureRandom.uuid
         @reticulated = !!attrs[:reticulated]
       end
@@ -20,11 +19,9 @@ module Acme
         Acme::Models::Spline.new(uuid: uuid)
       end
 
-      def save!
-      end
+      def save!; end
 
-      def destroy
-      end
+      def destroy; end
     end
   end
 end
