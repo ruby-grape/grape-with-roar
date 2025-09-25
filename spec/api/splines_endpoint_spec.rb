@@ -8,7 +8,7 @@ describe Acme::Api::SplinesEndpoint do
   end
 
   context 'splines' do
-    before(:each) do
+    before do
       3.times do
         Fabricate(:acme_models_spline)
       end
@@ -36,9 +36,9 @@ describe Acme::Api::SplinesEndpoint do
       get next_link
       expect(last_response.status).to eq 200
       json = JSON.parse(last_response.body)
-      expect(json['_links']['next']['href']).to match(%r{^http\:\/\/example.org\/api\/splines\?cursor=.*size=2$})
-      expect(json['_links']['self']['href']).to match(%r{^http\:\/\/example.org\/api\/splines\?cursor=.*size=2$})
-      expect(json['_links']['self']['href']).to_not eq json['_links']['next']['href']
+      expect(json['_links']['next']['href']).to match(%r{^http://example.org/api/splines\?cursor=.*size=2$})
+      expect(json['_links']['self']['href']).to match(%r{^http://example.org/api/splines\?cursor=.*size=2$})
+      expect(json['_links']['self']['href']).not_to eq json['_links']['next']['href']
     end
 
     it 'returns all unique ids' do
@@ -56,7 +56,7 @@ describe Acme::Api::SplinesEndpoint do
       post '/api/splines', spline: { name: 'new name', reticulated: false }
       expect(last_response.status).to eq 201
       json = JSON.parse(last_response.body)
-      expect(json['id']).to_not be_blank
+      expect(json['id']).not_to be_blank
       expect(json['name']).to eq 'new name'
     end
 
@@ -83,7 +83,8 @@ describe Acme::Api::SplinesEndpoint do
       json = JSON.parse(last_response.body)
       expect(json['id']).to eq spline1.id.to_s
       expect(json['_links']['self']['href']).to eq "http://example.org/api/splines/#{spline1.id}"
-      expect(json['_links']['curies']).to eq([{ 'name' => 'images', 'href' => 'http://example.org/docs/splines/images/{rel}', 'templated' => true }])
+      expect(json['_links']['curies']).to eq([{ 'name' => 'images',
+                                                'href' => 'http://example.org/docs/splines/images/{rel}', 'templated' => true }])
       expect(json['_links']['images:thumbnail']['href']).to eq "http://example.org/api/splines/#{spline1.id}/images/thumbnail.jpg"
     end
   end

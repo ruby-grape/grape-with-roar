@@ -1,25 +1,28 @@
 source 'http://rubygems.org'
 
+gem 'activemodel'
 gem 'grape'
 gem 'grape-roar'
-gem 'rack-cors'
 gem 'grape-swagger'
-gem 'activemodel'
-gem 'rack-rewrite'
-gem 'puma'
-gem 'mongoid', '~> 5.0'
+gem 'mongoid'
 gem 'mongoid-scroll'
+gem 'puma'
+gem 'rack-cors'
+gem 'rack-rewrite'
 
 group :development do
   gem 'rake'
   gem 'rubocop'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
 end
 
 group :test do
-  gem 'rspec'
-  gem 'rack-test'
-  gem 'hyperclient'
-  gem 'database_cleaner'
+  gem 'database_cleaner-mongoid'
   gem 'fabrication'
   gem 'faker'
+  gem 'faraday-rack'
+  gem 'hyperclient'
+  gem 'rack-test'
+  gem 'rspec'
 end

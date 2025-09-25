@@ -7,7 +7,7 @@ require 'rake'
 
 task :environment do
   ENV['RACK_ENV'] ||= 'development'
-  require File.expand_path('../config/environment', __FILE__)
+  require File.expand_path('config/environment', __dir__)
 end
 
 unless ENV['RACK_ENV'] == 'production'
@@ -21,5 +21,5 @@ unless ENV['RACK_ENV'] == 'production'
   require 'rubocop/rake_task'
   RuboCop::RakeTask.new(:rubocop)
 
-  task default: [:rubocop, :spec]
+  task default: %i[rubocop spec]
 end

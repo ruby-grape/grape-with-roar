@@ -12,8 +12,6 @@ module Acme
 
         collection :results, extend: SplinePresenter, as: :splines, embedded: true
 
-        private
-
         def results
           self[:results]
         end

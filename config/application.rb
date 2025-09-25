@@ -4,13 +4,13 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'boot'
 
-Bundler.require :default, ENV['RACK_ENV']
+Bundler.require :default, ENV.fetch('RACK_ENV', nil)
 
 require 'roar/representer'
 require 'roar/json'
 require 'roar/json/hal'
 
-Mongoid.load!(File.expand_path('../config/mongoid.yml', __dir__), ENV['RACK_ENV'])
+Mongoid.load!(File.expand_path('../config/mongoid.yml', __dir__), ENV.fetch('RACK_ENV', nil))
 
 ['api/extensions', 'api/presenters', 'api', 'app/models'].each do |path|
   Dir[File.expand_path("../../#{path}/*.rb", __FILE__)].each do |f|

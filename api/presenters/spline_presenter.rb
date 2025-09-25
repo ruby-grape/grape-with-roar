@@ -29,8 +29,6 @@ module Acme
           "#{request.base_url}/api/splines/#{id_s}/images/thumbnail.jpg"
         end
 
-        private
-
         def id_s
           id.to_s
         end

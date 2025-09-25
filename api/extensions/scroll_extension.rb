@@ -9,9 +9,9 @@ module Grape
         results = { results: [], next: nil }
         size = (params[:size] || 10).to_i
         # some items may be skipped with a block
-        coll.limit(size).scroll(params[:cursor]) do |record, next_cursor|
+        coll.limit(size).scroll(params[:cursor]) do |record, iterator|
           results[:results] << record
-          results[:next] = next_cursor.to_s
+          results[:next] = iterator.next_cursor.to_s
         end
         results
       end
