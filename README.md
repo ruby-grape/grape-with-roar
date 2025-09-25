@@ -1,9 +1,7 @@
 Grape API with Roar & Mongoid
 =============================
 
-[![Build Status](https://travis-ci.org/ruby-grape/grape-with-roar.svg?branch=with_mongoid)](https://travis-ci.org/ruby-grape/grape-with-roar?branch=with_mongoid)
-[![Dependency Status](https://gemnasium.com/ruby-grape/grape-with-roar.svg?branch=with_mongoid)](https://gemnasium.com/ruby-grape/grape-with-roar?branch=with_mongoid)
-[![Code Climate](https://codeclimate.com/github/ruby-grape/grape-with-roar.svg?branch=with_mongoid)](https://codeclimate.com/github/ruby-grape/grape-with-roar?branch=with_mongoid)
+[![test](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml/badge.svg?branch=with-mongoid)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml)
 
 A [Grape](http://github.com/ruby-grape/grape) API that uses [Roar](https://github.com/apotonick/roar) and Mongoid with a MongoDB database.
 
