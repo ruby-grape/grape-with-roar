@@ -7,7 +7,7 @@ require 'rake'
 
 task :environment do
   ENV['RACK_ENV'] ||= 'development'
-  require File.expand_path('../config/environment', __FILE__)
+  require File.expand_path('config/environment', __dir__)
 end
 
 unless ENV['RACK_ENV'] == 'production'
@@ -21,7 +21,7 @@ unless ENV['RACK_ENV'] == 'production'
   require 'rubocop/rake_task'
   RuboCop::RakeTask.new(:rubocop)
 
-  task default: [:rubocop, :spec]
+  task default: %i[rubocop spec]
 end
 
 # Setup ActiveRecord migrations
@@ -30,7 +30,7 @@ require 'yaml'
 require 'active_record'
 include ActiveRecord::Tasks
 
-db_dir = File.expand_path('../db', __FILE__)
+db_dir = File.expand_path('db', __dir__)
 
 DatabaseTasks.env = ENV['RACK_ENV'] || 'development'
 DatabaseTasks.database_configuration = YAML.load_file('./config/database.yml')

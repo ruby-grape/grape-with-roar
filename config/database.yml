@@ -1,14 +1,13 @@
-default: &default
+development:
+  database: acme_development
   adapter: postgresql
   encoding: unicode
   pool: 10
 
-development:
-  <<: *default
-  database: acme_development
-
 test:
-  <<: *default
   database: acme_test
+  adapter: postgresql
+  encoding: unicode
+  pool: 10
 
 

@@ -7,7 +7,7 @@ module Grape
       end
 
       def update(instance, options = {})
-        instance.update_attributes! options[:from]
+        instance.update! options[:from]
         present instance, with: options[:with]
       end
 

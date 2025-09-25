@@ -4,7 +4,7 @@ ENV['RACK_ENV'] ||= 'test'
 
 require 'rack/test'
 
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 
 RSpec.configure do |config|
   config.mock_with :rspec
@@ -16,7 +16,11 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.after(:each) do |_example|
+  config.before do |_example|
+    DatabaseCleaner.start
+  end
+
+  config.after do |_example|
     DatabaseCleaner.clean
   end
 end

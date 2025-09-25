@@ -1,7 +1,12 @@
 AllCops:
+  NewCops: enable
   Exclude:
     - vendor/**/*
     - bin/**/*
     - db/schema.rb
 
 inherit_from: .rubocop_todo.yml
+
+plugins:
+  - rubocop-rake
+  - rubocop-rspec
