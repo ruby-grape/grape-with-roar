@@ -1,0 +1,23 @@
+name: test
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: '17'
+          postgresql db: acme_test
+          postgresql user: test
+          postgresql password: password
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+      - env:
+          RACK_ENV: test
+          DATABASE_URL: postgres://test:password@localhost/acme_test
+        run: | 
+          bundle exec rake db:create db:migrate
+          bundle exec rake

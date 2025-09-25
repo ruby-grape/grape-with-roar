@@ -1,9 +1,7 @@
 Grape API with Roar
 ===================
 
-[![Build Status](http://img.shields.io/travis/ruby-grape/grape-with-roar.svg?branch=with_activerecord)](https://travis-ci.org/ruby-grape/grape-with-roar?branch=with_activerecord)
-[![Dependency Status](https://gemnasium.com/ruby-grape/grape-with-roar.svg?branch=with_activerecord)](https://gemnasium.com/ruby-grape/grape-with-roar?branch=with_activerecord)
-[![Code Climate](https://codeclimate.com/github/ruby-grape/grape-with-roar.svg?branch=with_activerecord)](https://codeclimate.com/github/ruby-grape/grape-with-roar?branch=with_activerecord)
+[![test](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml/badge.svg?branch=with-activerecord)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml)
 
 A [Grape](http://github.com/intridea/grape) API that uses [Roar](https://github.com/apotonick/roar) and ActiveRecord with a PostgreSQL database.
 

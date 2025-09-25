@@ -1,13 +1,18 @@
-development:
-  database: acme_development
+default: &default
   adapter: postgresql
-  encoding: unicode
   pool: 10
+  timeout: 5000
+  encoding: unicode
+
+development:
+  <<: *default
+  database: acme_development
 
 test:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
   database: acme_test
-  adapter: postgresql
-  encoding: unicode
-  pool: 10
 
-
+production:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>

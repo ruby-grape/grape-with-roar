@@ -2,5 +2,6 @@ ENV['RACK_ENV'] ||= 'test'
 
 require File.expand_path('application', __dir__)
 
-db_config = YAML.load_file('config/database.yml')[ENV.fetch('RACK_ENV', nil)]
+yml = ERB.new(File.read(File.expand_path('database.yml', __dir__))).result
+db_config = YAML.safe_load(yml, aliases: true)[ENV.fetch('RACK_ENV', nil)]
 ActiveRecord::Base.establish_connection(db_config)
