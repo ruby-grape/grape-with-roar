@@ -7,6 +7,26 @@ describe Acme::Api::SplinesEndpoint do
     Acme::App.instance
   end
 
+  %w[application/json application/hal+json].each do |content_type|
+    context "with #{content_type} requests" do
+      it 'creates a spline from a JSON body' do
+        post '/api/splines', JSON.generate(spline: { reticulated: true }), 'CONTENT_TYPE' => content_type
+        expect(last_response.status).to eq 201
+        json = JSON.parse(last_response.body)
+        expect(json['uuid']).not_to be_blank
+        expect(json['reticulated']).to be true
+      end
+
+      it 'updates a spline from a JSON body' do
+        put '/api/splines/123', JSON.generate(spline: { reticulated: false }), 'CONTENT_TYPE' => content_type
+        expect(last_response.status).to eq 200
+        json = JSON.parse(last_response.body)
+        expect(json['uuid']).to eq '123'
+        expect(json['reticulated']).to be false
+      end
+    end
+  end
+
   context 'splines' do
     it 'returns 3 splines by default' do
       get '/api/splines'
