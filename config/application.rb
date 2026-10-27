@@ -13,7 +13,7 @@ require 'roar/json/hal'
 Mongoid.load!(File.expand_path('../config/mongoid.yml', __dir__), ENV.fetch('RACK_ENV', nil))
 
 ['api/extensions', 'api/presenters', 'api', 'app/models'].each do |path|
-  Dir[File.expand_path("../../#{path}/*.rb", __FILE__)].each do |f|
+  Dir[File.expand_path("../../#{path}/*.rb", __FILE__)].sort.each do |f|
     require f
   end
 end

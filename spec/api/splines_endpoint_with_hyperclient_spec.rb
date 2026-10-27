@@ -16,6 +16,36 @@ describe Acme::Api::SplinesEndpoint do
     end
   end
 
+  context 'when following the README example' do
+    let(:client) do
+      Hyperclient.new('http://example.org/api') do |api|
+        api.connection(default: false) do |conn|
+          conn.request :hal_json
+          conn.response :hal_json, content_type: /\bjson$/
+          conn.adapter Faraday::Adapter::Rack, app
+        end
+      end
+    end
+
+    before do
+      [true, false, true].each_with_index do |reticulated, index|
+        client.splines._post(spline: { name: index.to_s, reticulated: reticulated })
+      end
+    end
+
+    it 'lists persisted names and booleans across pages' do
+      splines = client.splines(size: 2)
+      expect(splines.map { |spline| [spline.name, spline.reticulated] }).to contain_exactly(
+        ['0', true], ['1', false], ['2', true]
+      )
+    end
+
+    it 'deletes the listed splines' do
+      client.splines({}).each(&:_delete)
+      expect(Acme::Models::Spline.count).to eq 0
+    end
+  end
+
   context 'splines' do
     before do
       3.times do

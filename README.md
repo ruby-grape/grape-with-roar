@@ -1,69 +1,118 @@
 Grape API with Roar & Mongoid
 =============================
 
-[![test](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml/badge.svg?branch=with-mongoid)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml)
+[![Tests](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml/badge.svg?branch=with-mongoid)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml?query=branch%3Awith-mongoid)
+[![Rubocop](https://github.com/ruby-grape/grape-with-roar/actions/workflows/rubocop.yml/badge.svg?branch=with-mongoid)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/rubocop.yml?query=branch%3Awith-mongoid)
+[![Coverage Status](https://coveralls.io/repos/github/ruby-grape/grape-with-roar/badge.svg?branch=with-mongoid)](https://coveralls.io/github/ruby-grape/grape-with-roar?branch=with-mongoid)
 
-A [Grape](http://github.com/ruby-grape/grape) API that uses [Roar](https://github.com/apotonick/roar) and Mongoid with a MongoDB database.
+A [Grape](https://github.com/ruby-grape/grape) API that serves HAL hypermedia with [Roar](https://github.com/trailblazer/roar) and persists splines in MongoDB with [Mongoid](https://github.com/mongodb/mongoid).
 
 Run
 ---
 
-```
-$ bundle install
-$ rackup
+Use Ruby 3.3 or newer and a running MongoDB 8 instance. This branch persists the Mongoid [Spline](app/models/spline.rb) model. Development and test connections default to `127.0.0.1:27017`, with separate databases configured in [config/mongoid.yml](config/mongoid.yml).
 
-[2013-06-20 08:57:58] INFO  WEBrick 1.3.1
-[2013-06-20 08:57:58] INFO  ruby 1.9.3 (2013-02-06) [x86_64-darwin11.4.2]
-[2013-06-20 08:57:58] INFO  WEBrick::HTTPServer#start: pid=247 port=9292
+```sh
+bundle install
+RACK_ENV=development bundle exec puma -p 9292
 ```
 
-Try with Hyperclient and `irb`.
+Open [localhost:9292/api](http://localhost:9292/api) to explore the API's HAL links, or [localhost:9292/api/swagger_doc](http://localhost:9292/api/swagger_doc) for Swagger documentation.
 
-```
-require 'hyperclient'
+POST and PUT JSON
+-----------------
+
+Create a persisted spline by posting a JSON object nested under `spline`:
+
+```sh
+curl --include http://localhost:9292/api/splines \
+  --header 'Content-Type: application/json' \
+  --data '{"spline":{"name":"demo","reticulated":true}}'
 ```
 
-Create some splines.
+The response is `201 Created` with a string `id` and HAL links. Replace `ID_FROM_POST` below with that returned ID to update the same record:
+
+```sh
+curl --include --request PUT http://localhost:9292/api/splines/ID_FROM_POST \
+  --header 'Content-Type: application/json' \
+  --data '{"spline":{"name":"updated","reticulated":false}}'
+```
+
+The response is `200 OK`, and the changes are persisted in MongoDB. Both endpoints also accept `Content-Type: application/hal+json`. Collections use `cursor` and `size` pagination parameters.
+
+Hyperclient
+-----------
+
+[Hyperclient](https://github.com/codegram/hyperclient) can create, list, update, and delete splines through the API. See [splines_endpoint_with_hyperclient_spec.rb](spec/api/splines_endpoint_with_hyperclient_spec.rb) for a complete example.
+
+With the server running, open a second terminal:
+
+```sh
+bundle exec irb
+```
+
+Create one client and reuse it for the examples below:
 
 ```ruby
-client = Hyperclient.new('http://localhost:9292/api')
+require 'hyperclient'
 
+client = Hyperclient.new('http://localhost:9292/api')
+```
+
+Hyperclient's default middleware encodes Ruby Hash request bodies as HAL JSON.
+
+Create some splines:
+
+```ruby
 3.times do |i|
   client.splines._post(spline: { name: i.to_s, reticulated: [true, false].sample })
 end
 ```
 
-Show splines.
+List persisted splines. Passing `{}` expands a fresh collection link instead of reusing the cached POST response. Hyperclient follows pagination links automatically:
 
 ```ruby
-client = Hyperclient.new('http://localhost:9292/api')
-
-client.splines.each do |spline|
+client.splines({}).each do |spline|
   puts "spline #{spline.id} #{spline.reticulated ? 'is' : 'is not'} reticulated"
 end
 ```
 
-Delete splines.
+Delete all listed splines. This permanently removes the records from MongoDB:
 
 ```ruby
-client = Hyperclient.new('http://localhost:9292/api')
-
-client.splines.each(&:_delete)
+client.splines({}).each(&:_delete)
 ```
 
-### Hello World
-
-Navigate to [localhost:9292/api](http://localhost:9292/api) with a browser. This is a hypermedia API, so all links are clickable.
-
-Hyperclient
+Development
 -----------
 
-This is a good demo to use with [Hyperclient](https://github.com/codegram/hyperclient). Check out [splines_endpoint_with_hyperclient_spec.rb](/spec/api/splines_endpoint_with_hyperclient_spec.rb) for a complete example that retrieves, creates, updates and deletes splines.
+Run the test suite and RuboCop:
 
-ActiveRecord
-------------
+```sh
+bundle exec rake spec
+bundle exec rubocop
+# Run both:
+bundle exec rake
+```
 
-This project uses Mongoid and defines a dummy [Spline](app/models/spline.rb) class. Check out the [master branch](https://github.com/ruby-grape/grape-with-roar) for a complete example that uses ActiveModel and [with-activerecord branch](https://github.com/ruby-grape/grape-with-roar/tree/with-activerecord) for a complete example that uses ActiveRecord and a PostgreSQL database.
+Tests clear the configured test database. Do not point that connection at data you want to keep.
+
+Tests generate HTML coverage in `coverage/index.html` and LCOV coverage in `coverage/lcov.info`. CI tests Ruby 3.3, 3.4, and 4.0 across Grape 2, 3, and 4, including Rack 2 and 3 compatibility, and uploads combined coverage to Coveralls.
+
+The committed lockfile provides the default development bundle. CI resolves each compatibility combination independently using `GRAPE_VERSION` and `RACK_VERSION`. To try another combination locally, save the lockfile first, remove it, and run `bundle install` with those environment variables; restore the default lockfile afterward.
+
+Each active example branch runs its own branch-specific test and lint workflows. This branch provisions a health-checked MongoDB 8.0 service for every test job on Ubuntu 22.04; MongoDB 8.0 rejects Linux 6.19 and newer, including some updated Ubuntu 24.04 runners.
+
+Other Examples
+--------------
+
+The three active branches share the HAL API, with different model and persistence examples:
+
+| Branch | Model | Database |
+|--------|-------|----------|
+| [master](https://github.com/ruby-grape/grape-with-roar/tree/master) | ActiveModel | None; generated splines, nonpersistent writes |
+| [with-mongoid](https://github.com/ruby-grape/grape-with-roar/tree/with-mongoid) | Mongoid | MongoDB |
+| [with-activerecord](https://github.com/ruby-grape/grape-with-roar/tree/with-activerecord) | ActiveRecord | PostgreSQL |
 
 Copyright and License
 ---------------------
