@@ -43,7 +43,7 @@ The response is `200 OK`, and the changes are persisted in MongoDB. Both endpoin
 Hyperclient
 -----------
 
-[Hyperclient](https://github.com/codegram/hyperclient) can create, list, update, and delete splines through the API. See [splines_endpoint_with_hyperclient_spec.rb](spec/api/splines_endpoint_with_hyperclient_spec.rb) for a complete example.
+[Hyperclient](https://github.com/codegram/hyperclient) can create, list, update, and delete splines through the API. See [splines_endpoint_with_hyperclient_spec.rb](spec/api/splines_endpoint_with_hyperclient_spec.rb) for the corresponding request coverage.
 
 With the server running, open a second terminal:
 
@@ -51,37 +51,29 @@ With the server running, open a second terminal:
 bundle exec irb
 ```
 
-Create one client and reuse it for the examples below:
+Reuse one client for this sequence. Hyperclient's default middleware encodes Ruby Hash request bodies as HAL JSON, and the returned self links handle each branch's identifier format. The final call deletes only the spline created by this example, not the collection:
 
 ```ruby
 require 'hyperclient'
 
 client = Hyperclient.new('http://localhost:9292/api')
-```
+spline = client.splines._post(spline: { reticulated: true })
+puts spline._links.self._url
+puts spline.reticulated
 
-Hyperclient's default middleware encodes Ruby Hash request bodies as HAL JSON.
+spline = spline._put(spline: { reticulated: false })
+puts spline.reticulated
 
-Create some splines:
-
-```ruby
-3.times do |i|
-  client.splines._post(spline: { name: i.to_s, reticulated: [true, false].sample })
+client.splines(size: 2).each do |item|
+  puts "#{item._links.self._url}: #{item.reticulated}"
 end
+
+spline._delete
 ```
 
-List persisted splines. Passing `{}` expands a fresh collection link instead of reusing the cached POST response. Hyperclient follows pagination links automatically:
+Passing `size: 2` expands a fresh collection link after POST instead of reusing its cached response. Hyperclient follows pagination links automatically.
 
-```ruby
-client.splines({}).each do |spline|
-  puts "spline #{spline.id} #{spline.reticulated ? 'is' : 'is not'} reticulated"
-end
-```
-
-Delete all listed splines. This permanently removes the records from MongoDB:
-
-```ruby
-client.splines({}).each(&:_delete)
-```
+On `with-mongoid`, create and update persist changes in MongoDB, and the final delete removes only the created record. Collection links use cursor-based pagination; HAL self links handle the model's string IDs without hard-coding them in the client.
 
 Development
 -----------
