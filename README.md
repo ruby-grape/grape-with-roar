@@ -1,8 +1,8 @@
 Grape API with Roar
 ===================
 
-[![test](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml/badge.svg)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml)
-[![Rubocop](https://github.com/ruby-grape/grape-with-roar/actions/workflows/rubocop.yml/badge.svg)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/rubocop.yml)
+[![Tests](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml?query=branch%3Amaster)
+[![Rubocop](https://github.com/ruby-grape/grape-with-roar/actions/workflows/rubocop.yml/badge.svg?branch=master)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/rubocop.yml?query=branch%3Amaster)
 [![Coverage Status](https://coveralls.io/repos/github/ruby-grape/grape-with-roar/badge.svg?branch=master)](https://coveralls.io/github/ruby-grape/grape-with-roar?branch=master)
 
 A [Grape](https://github.com/ruby-grape/grape) API that uses [Roar](https://github.com/trailblazer/roar) to serve HAL hypermedia, including CRUD operations, pagination, templated links, and Swagger documentation.
@@ -10,16 +10,14 @@ A [Grape](https://github.com/ruby-grape/grape) API that uses [Roar](https://gith
 Run
 ---
 
-Use Ruby 3.3 or newer. The default branch uses an in-memory ActiveModel example and needs no database.
+Use Ruby 3.3 or newer. This branch uses an ActiveModel [Spline](app/models/spline.rb) generated on demand, with no database or persistent writes.
 
 ```sh
 bundle install
-bundle exec rackup -s puma -p 9292
+RACK_ENV=development bundle exec puma -p 9292
 ```
 
-Navigate to [localhost:9292/api](http://localhost:9292/api) with a browser. This is a hypermedia API, so all links are clickable.
-
-The API root links to the spline collection and [Swagger documentation](http://localhost:9292/api/swagger_doc).
+Open [localhost:9292/api](http://localhost:9292/api) to explore the API's HAL links, or [localhost:9292/api/swagger_doc](http://localhost:9292/api/swagger_doc) for Swagger documentation.
 
 POST and PUT JSON
 -----------------
@@ -45,22 +43,7 @@ The response is `200 OK` with `uuid: "123"` and `reticulated: false`. Both endpo
 Hyperclient
 -----------
 
-This is a good demo to use with [Hyperclient](https://github.com/dblock/hyperclient). Check out [splines_endpoint_with_hyperclient_spec.rb](spec/api/splines_endpoint_with_hyperclient_spec.rb) for a complete example that retrieves, creates, updates and deletes splines.
-
-ActiveModel
------------
-
-This project uses ActiveModel and defines a dummy [Spline](app/models/spline.rb) class. Splines are generated on demand; create, update, and delete demonstrate the API contract without persisting changes.
-
-ActiveRecord
-------------
-
-Check out the [with-activerecord branch](https://github.com/ruby-grape/grape-with-roar/tree/with-activerecord) for a complete example that uses ActiveRecord and a PostgreSQL database.
-
-Mongoid
--------
-
-Check out the [with-mongoid branch](https://github.com/ruby-grape/grape-with-roar/tree/with-mongoid) for a complete example that uses Mongoid and a MongoDB database.
+[Hyperclient](https://github.com/codegram/hyperclient) can create, list, update, and delete splines through the API. See [splines_endpoint_with_hyperclient_spec.rb](spec/api/splines_endpoint_with_hyperclient_spec.rb) for a complete example. Writes on this branch demonstrate the API contract without persisting changes.
 
 Development
 -----------
@@ -76,7 +59,18 @@ Tests generate HTML coverage in `coverage/index.html` and LCOV coverage in `cove
 
 The committed lockfile provides the default development bundle. CI resolves each compatibility combination independently using `GRAPE_VERSION` and `RACK_VERSION`. To try another combination locally, save the lockfile first, remove it, and run `bundle install` with those environment variables; restore the default lockfile afterward.
 
-The ActiveRecord and Mongoid branches are historical examples; the current CI matrix covers the default ActiveModel branch only.
+Each active example branch runs its own branch-specific test and lint workflows. This branch requires no database service.
+
+Other Examples
+--------------
+
+The three active branches share the HAL API, with different model and persistence examples:
+
+| Branch | Model | Database |
+|--------|-------|----------|
+| [master](https://github.com/ruby-grape/grape-with-roar/tree/master) | ActiveModel | None; generated splines, nonpersistent writes |
+| [with-mongoid](https://github.com/ruby-grape/grape-with-roar/tree/with-mongoid) | Mongoid | MongoDB |
+| [with-activerecord](https://github.com/ruby-grape/grape-with-roar/tree/with-activerecord) | ActiveRecord | PostgreSQL |
 
 Copyright and License
 ---------------------

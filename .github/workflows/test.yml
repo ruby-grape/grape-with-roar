@@ -1,5 +1,9 @@
 name: Tests
-on: [push, pull_request]
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 permissions:
   contents: read
 concurrency:
@@ -20,6 +24,7 @@ jobs:
           - { ruby: '4.0', grape: '~> 4.0', rack: '~> 3.0' }
     name: Ruby ${{ matrix.entry.ruby }} / Grape ${{ matrix.entry.grape }} / Rack ${{ matrix.entry.rack }}
     env:
+      RACK_ENV: test
       GRAPE_VERSION: ${{ matrix.entry.grape }}
       RACK_VERSION: ${{ matrix.entry.rack }}
     steps:
@@ -43,6 +48,7 @@ jobs:
     name: Finish Coveralls
     needs: test
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: coverallsapp/github-action@v2
         with:
