@@ -7,6 +7,26 @@ describe Acme::Api::SplinesEndpoint do
     Acme::App.instance
   end
 
+  %w[application/json application/hal+json].each do |content_type|
+    context "with #{content_type} requests" do
+      let(:spline) { Fabricate(:acme_models_spline) }
+
+      it 'creates a persisted spline from a JSON body' do
+        post '/api/splines', JSON.generate(spline: { name: 'new name', reticulated: true }), 'CONTENT_TYPE' => content_type
+        expect(last_response.status).to eq 201
+        record = Acme::Models::Spline.find(JSON.parse(last_response.body).fetch('id'))
+        expect(record.attributes).to include('name' => 'new name', 'reticulated' => true)
+      end
+
+      it 'updates a persisted spline from a JSON body' do
+        put "/api/splines/#{spline.id}", JSON.generate(spline: { name: 'updated', reticulated: false }),
+            'CONTENT_TYPE' => content_type
+        expect(last_response.status).to eq 200
+        expect(spline.reload.attributes).to include('name' => 'updated', 'reticulated' => false)
+      end
+    end
+  end
+
   context 'splines' do
     before do
       3.times do
