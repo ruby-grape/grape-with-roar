@@ -34,7 +34,7 @@ db_dir = File.expand_path('db', __dir__)
 
 DatabaseTasks.env = ENV['RACK_ENV'] || 'development'
 yml = ERB.new(File.read(File.expand_path('config/database.yml', __dir__))).result
-DatabaseTasks.database_configuration = YAML.safe_load(yml, aliases: true)[ENV.fetch('RACK_ENV', nil)]
+DatabaseTasks.database_configuration = YAML.safe_load(yml, aliases: true)
 DatabaseTasks.db_dir = db_dir
 DatabaseTasks.migrations_paths = File.join(db_dir, 'migrate')
 

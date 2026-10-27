@@ -1,4 +1,4 @@
-class CreateSplines < ActiveRecord::Migration
+class CreateSplines < ActiveRecord::Migration[8.0]
   def self.up
     create_table :splines do |t|
       t.string :name

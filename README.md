@@ -1,36 +1,82 @@
-Grape API with Roar
-===================
+Grape API with Roar & ActiveRecord
+=================================
 
-[![test](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml/badge.svg?branch=with-activerecord)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml)
+[![Tests](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml/badge.svg?branch=with-activerecord)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml?query=branch%3Awith-activerecord)
+[![Rubocop](https://github.com/ruby-grape/grape-with-roar/actions/workflows/rubocop.yml/badge.svg?branch=with-activerecord)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/rubocop.yml?query=branch%3Awith-activerecord)
+[![Coverage Status](https://coveralls.io/repos/github/ruby-grape/grape-with-roar/badge.svg?branch=with-activerecord)](https://coveralls.io/github/ruby-grape/grape-with-roar?branch=with-activerecord)
 
-A [Grape](http://github.com/intridea/grape) API that uses [Roar](https://github.com/apotonick/roar) and ActiveRecord with a PostgreSQL database.
+A [Grape](https://github.com/ruby-grape/grape) API that serves HAL hypermedia with [Roar](https://github.com/trailblazer/roar) and persists splines in PostgreSQL with [ActiveRecord](https://github.com/rails/rails/tree/main/activerecord).
 
 Run
 ---
 
-```
-$ bundle install
-$ rake db:create db:migrate
-$ rackup
+Use Ruby 3.3 or newer and a running PostgreSQL instance; CI uses PostgreSQL 17. This branch persists the ActiveRecord [Spline](app/models/spline.rb) model. Configure development credentials in [config/database.yml](config/database.yml) or set `DATABASE_URL`.
 
-[2013-06-20 08:57:58] INFO  WEBrick 1.3.1
-[2013-06-20 08:57:58] INFO  ruby 1.9.3 (2013-02-06) [x86_64-darwin11.4.2]
-[2013-06-20 08:57:58] INFO  WEBrick::HTTPServer#start: pid=247 port=9292
+```sh
+bundle install
+RACK_ENV=development bundle exec rake db:create db:migrate
+RACK_ENV=development bundle exec puma -p 9292
 ```
 
-### Hello World
+Open [localhost:9292/api](http://localhost:9292/api) to explore the API's HAL links, or [localhost:9292/api/swagger_doc](http://localhost:9292/api/swagger_doc) for Swagger documentation.
 
-Navigate to [localhost:9292/api](http://localhost:9292/api) with a browser. This is a hypermedia API, so all links are clickable.
+POST and PUT JSON
+-----------------
+
+Create a persisted spline by posting a JSON object nested under `spline`:
+
+```sh
+curl --include http://localhost:9292/api/splines \
+  --header 'Content-Type: application/json' \
+  --data '{"spline":{"name":"demo","reticulated":true}}'
+```
+
+The response is `201 Created` with an integer `id` and HAL links. Replace `ID_FROM_POST` below with that returned ID to update the same record:
+
+```sh
+curl --include --request PUT http://localhost:9292/api/splines/ID_FROM_POST \
+  --header 'Content-Type: application/json' \
+  --data '{"spline":{"name":"updated","reticulated":false}}'
+```
+
+The response is `200 OK`, and the changes are persisted in PostgreSQL. Both endpoints also accept `Content-Type: application/hal+json`. Collections use `page` and `size` pagination parameters.
 
 Hyperclient
 -----------
 
-This is a good demo to use with [Hyperclient](https://github.com/codegram/hyperclient). Check out [splines_endpoint_with_hyperclient_spec.rb](/spec/api/splines_endpoint_with_hyperclient_spec.rb) for a complete example that retrieves, creates, updates and deletes splines.
+[Hyperclient](https://github.com/codegram/hyperclient) can create, list, update, and delete splines through the API. See [splines_endpoint_with_hyperclient_spec.rb](spec/api/splines_endpoint_with_hyperclient_spec.rb) for a complete example.
 
-ActiveModel
+Development
 -----------
 
-This branch uses ActiveRecord with a PostgreSQL database and defines a [Spline](app/models/spline.rb) model. Check out the [master branch](https://github.com/ruby-grape/grape-with-roar) for an example using ActiveModel.
+Run migrations against the separate test database before testing:
+
+```sh
+RACK_ENV=test bundle exec rake db:create db:migrate
+RACK_ENV=test bundle exec rake spec
+bundle exec rubocop
+# Run both after test database setup:
+RACK_ENV=test bundle exec rake
+```
+
+Tests clear the configured test database. Do not point that connection at data you want to keep. CI uses an isolated PostgreSQL service with test-only credentials.
+
+Tests generate HTML coverage in `coverage/index.html` and LCOV coverage in `coverage/lcov.info`. CI tests Ruby 3.3, 3.4, and 4.0 across Grape 2, 3, and 4, including Rack 2 and 3 compatibility, and uploads combined coverage to Coveralls.
+
+The committed lockfile provides the default development bundle. CI resolves each compatibility combination independently using `GRAPE_VERSION` and `RACK_VERSION`. To try another combination locally, save the lockfile first, remove it, and run `bundle install` with those environment variables; restore the default lockfile afterward.
+
+Each active example branch runs its own branch-specific test and lint workflows. This branch provisions a health-checked PostgreSQL 17 service and runs migrations for every test job.
+
+Other Examples
+--------------
+
+The three active branches share the HAL API, with different model and persistence examples:
+
+| Branch | Model | Database |
+|--------|-------|----------|
+| [master](https://github.com/ruby-grape/grape-with-roar/tree/master) | ActiveModel | None; generated splines, nonpersistent writes |
+| [with-mongoid](https://github.com/ruby-grape/grape-with-roar/tree/with-mongoid) | Mongoid | MongoDB |
+| [with-activerecord](https://github.com/ruby-grape/grape-with-roar/tree/with-activerecord) | ActiveRecord | PostgreSQL |
 
 Copyright and License
 ---------------------
