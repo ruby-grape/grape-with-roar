@@ -17,9 +17,11 @@ module Acme
         curies do |opts|
           request = Grape::Request.new(opts[:env])
           [
-            name: :images,
-            href: "#{request.base_url}/docs/splines/images/{rel}",
-            templated: true
+            {
+              name: :images,
+              href: "#{request.base_url}/docs/splines/images/{rel}",
+              templated: true
+            }
           ]
         end
 

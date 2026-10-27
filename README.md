@@ -2,34 +2,34 @@ Grape API with Roar
 ===================
 
 [![test](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml/badge.svg)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/test.yml)
+[![Rubocop](https://github.com/ruby-grape/grape-with-roar/actions/workflows/rubocop.yml/badge.svg)](https://github.com/ruby-grape/grape-with-roar/actions/workflows/rubocop.yml)
+[![Coverage Status](https://coveralls.io/repos/github/ruby-grape/grape-with-roar/badge.svg?branch=master)](https://coveralls.io/github/ruby-grape/grape-with-roar?branch=master)
 
-A [Grape](http://github.com/ruby-grape/grape) API that uses [Roar](https://github.com/apotonick/roar).
+A [Grape](https://github.com/ruby-grape/grape) API that uses [Roar](https://github.com/trailblazer/roar) to serve HAL hypermedia, including CRUD operations, pagination, templated links, and Swagger documentation.
 
 Run
 ---
 
-```
-$ bundle install
-$ rackup
+Use Ruby 3.3 or newer. The default branch uses an in-memory ActiveModel example and needs no database.
 
-[2013-06-20 08:57:58] INFO  WEBrick 1.3.1
-[2013-06-20 08:57:58] INFO  ruby 1.9.3 (2013-02-06) [x86_64-darwin11.4.2]
-[2013-06-20 08:57:58] INFO  WEBrick::HTTPServer#start: pid=247 port=9292
+```sh
+bundle install
+bundle exec rackup -s puma -p 9292
 ```
 
 Navigate to [localhost:9292/api](http://localhost:9292/api) with a browser. This is a hypermedia API, so all links are clickable.
 
-In Chrome, best viewed with the [JSONView Plugin](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en).
+The API root links to the spline collection and [Swagger documentation](http://localhost:9292/api/swagger_doc).
 
 Hyperclient
 -----------
 
-This is a good demo to use with [Hyperclient](https://github.com/codegram/hyperclient). Check out [splines_endpoint_with_hyperclient_spec.rb](/spec/api/splines_endpoint_with_hyperclient_spec.rb) for a complete example that retrieves, creates, updates and deletes splines.
+This is a good demo to use with [Hyperclient](https://github.com/dblock/hyperclient). Check out [splines_endpoint_with_hyperclient_spec.rb](spec/api/splines_endpoint_with_hyperclient_spec.rb) for a complete example that retrieves, creates, updates and deletes splines.
 
 ActiveModel
 -----------
 
-This project uses ActiveModel and defines a dummy [Spline](app/models/spline.rb) class.
+This project uses ActiveModel and defines a dummy [Spline](app/models/spline.rb) class. Splines are generated on demand; create, update, and delete demonstrate the API contract without persisting changes.
 
 ActiveRecord
 ------------
@@ -40,6 +40,22 @@ Mongoid
 -------
 
 Check out the [with-mongoid branch](https://github.com/ruby-grape/grape-with-roar/tree/with-mongoid) for a complete example that uses Mongoid and a MongoDB database.
+
+Development
+-----------
+
+```sh
+bundle exec rake spec
+bundle exec rubocop
+# Run both:
+bundle exec rake
+```
+
+Tests generate HTML coverage in `coverage/index.html` and LCOV coverage in `coverage/lcov.info`. CI tests Ruby 3.3, 3.4, and 4.0 across Grape 2, 3, and 4, including Rack 2 and 3 compatibility, and uploads combined coverage to Coveralls.
+
+The committed lockfile provides the default development bundle. CI resolves each compatibility combination independently using `GRAPE_VERSION` and `RACK_VERSION`. To try another combination locally, save the lockfile first, remove it, and run `bundle install` with those environment variables; restore the default lockfile afterward.
+
+The ActiveRecord and Mongoid branches are historical examples; the current CI matrix covers the default ActiveModel branch only.
 
 Copyright and License
 ---------------------
