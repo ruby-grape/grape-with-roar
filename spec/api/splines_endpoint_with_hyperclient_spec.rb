@@ -7,12 +7,27 @@ describe Acme::Api::SplinesEndpoint do
 
   let(:client) do
     Hyperclient.new('http://example.org/api') do |client|
-      client.headers['Content-Type'] = 'application/json'
       client.connection(default: false) do |conn|
-        conn.request :json
-        conn.response :json
+        conn.request :hal_json
+        conn.response :hal_json, content_type: /\bjson$/
         conn.adapter Faraday::Adapter::Rack, app
       end
+    end
+  end
+
+  context 'when following the README example' do
+    it 'creates, updates, and deletes through HAL self links' do
+      spline = client.splines._post(spline: { reticulated: true })
+      expect(spline.reticulated).to be true
+      spline = spline._put(spline: { reticulated: false })
+      expect(spline.reticulated).to be false
+      expect(spline._delete._status).to eq 200
+      expect(Acme::Models::Spline.all.count).to eq 42
+    end
+
+    it 'expands a fresh collection after creating a spline' do
+      client.splines._post(spline: { reticulated: true })
+      expect(client.splines(size: 2).count).to eq 42
     end
   end
 
