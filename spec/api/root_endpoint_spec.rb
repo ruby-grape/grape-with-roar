@@ -4,7 +4,25 @@ describe Acme::Api::RootEndpoint do
   include Rack::Test::Methods
 
   def app
-    Acme::App.instance
+    Rack::Lint.new(Acme::App.instance)
+  end
+
+  it 'serves the static home page' do
+    get '/'
+    expect(last_response.status).to eq 200
+    expect(last_response.body).to include('Rack Powers Web APIs')
+  end
+
+  it 'serves static assets' do
+    get '/images/rack-logo.png'
+    expect(last_response.status).to eq 200
+    expect(last_response.content_type).to include('image/png')
+  end
+
+  it 'serves the custom not found page' do
+    get '/missing'
+    expect(last_response.status).to eq 404
+    expect(last_response.body).to include('This page could not be found.')
   end
 
   it 'hypermedia root' do
