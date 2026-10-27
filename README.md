@@ -44,7 +44,38 @@ The response is `200 OK`, and the changes are persisted in PostgreSQL. Both endp
 Hyperclient
 -----------
 
-[Hyperclient](https://github.com/codegram/hyperclient) can create, list, update, and delete splines through the API. See [splines_endpoint_with_hyperclient_spec.rb](spec/api/splines_endpoint_with_hyperclient_spec.rb) for a complete example.
+[Hyperclient](https://github.com/codegram/hyperclient) can create, list, update, and delete splines through the API. See [splines_endpoint_with_hyperclient_spec.rb](spec/api/splines_endpoint_with_hyperclient_spec.rb) for the corresponding request coverage.
+
+With the server running, open a second terminal:
+
+```sh
+bundle exec irb
+```
+
+Reuse one client for this sequence. Hyperclient's default middleware encodes Ruby Hash request bodies as HAL JSON, and the returned self links handle each branch's identifier format. The final call deletes only the spline created by this example, not the collection:
+
+```ruby
+require 'hyperclient'
+
+client = Hyperclient.new('http://localhost:9292/api')
+spline = client.splines._post(spline: { reticulated: true })
+puts spline._links.self._url
+puts spline.reticulated
+
+spline = spline._put(spline: { reticulated: false })
+puts spline.reticulated
+
+client.splines(size: 2).each do |item|
+  puts "#{item._links.self._url}: #{item.reticulated}"
+end
+
+spline._delete
+```
+
+Passing `size: 2` expands a fresh collection link after POST instead of reusing its cached response. Hyperclient follows pagination links automatically.
+
+On `with-activerecord`, create and update persist changes in PostgreSQL, and the final delete removes only the created record. Collection links use page/size pagination; HAL self links handle the model's integer IDs without hard-coding them in the client.
+
 
 Development
 -----------
