@@ -1,15 +1,67 @@
-name: test
-on: [push, pull_request]
+name: Tests
+on:
+  push:
+    branches: [with-mongoid]
+  pull_request:
+    branches: [with-mongoid]
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # MongoDB 8.0 rejects Linux 6.19+ on the newer Ubuntu runners.
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    services:
+      mongodb:
+        image: mongo:8.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.adminCommand({ ping: 1 })'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    strategy:
+      fail-fast: false
+      matrix:
+        entry:
+          - { ruby: '3.3', grape: '~> 2.4', rack: '~> 2.2' }
+          - { ruby: '3.3', grape: '~> 2.4', rack: '~> 3.0' }
+          - { ruby: '3.3', grape: '~> 3.0', rack: '~> 3.0' }
+          - { ruby: '3.4', grape: '~> 4.0', rack: '~> 3.0' }
+          - { ruby: '4.0', grape: '~> 4.0', rack: '~> 3.0' }
+    name: Ruby ${{ matrix.entry.ruby }} / Grape ${{ matrix.entry.grape }} / Rack ${{ matrix.entry.rack }}
+    env:
+      RACK_ENV: test
+      GRAPE_VERSION: ${{ matrix.entry.grape }}
+      RACK_VERSION: ${{ matrix.entry.rack }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: supercharge/mongodb-github-action@1.12.0
-        with:
-          mongodb-version: '8.0'      
+      - uses: actions/checkout@v7
+      - name: Resolve the selected versions instead of the application lockfile
+        run: rm Gemfile.lock
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.4'
+          ruby-version: ${{ matrix.entry.ruby }}
           bundler-cache: true
-      - run: bundle exec rake
+      - run: bundle exec rake spec
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: coverage/lcov.info
+          format: lcov
+          flag-name: ruby-${{ matrix.entry.ruby }}-${{ strategy.job-index }}
+          parallel: true
+  finish:
+    name: Finish Coveralls
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true

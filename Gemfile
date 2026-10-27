@@ -1,17 +1,23 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 gem 'activemodel'
-gem 'grape'
+gem 'grape', ENV.fetch('GRAPE_VERSION', '>= 0')
 gem 'grape-roar'
 gem 'grape-swagger'
+# grape-roar 0.5 passes representer options to Hash#to_json, rejected by JSON 3.
+gem 'json', '< 3'
 gem 'mongoid'
 gem 'mongoid-scroll'
 gem 'puma'
+gem 'rack', ENV.fetch('RACK_VERSION', '>= 0')
 gem 'rack-cors'
-gem 'rack-rewrite'
+gem 'rackup', require: false
+
+group :development, :test do
+  gem 'rake'
+end
 
 group :development do
-  gem 'rake'
   gem 'rubocop'
   gem 'rubocop-rake'
   gem 'rubocop-rspec'
@@ -25,4 +31,6 @@ group :test do
   gem 'hyperclient'
   gem 'rack-test'
   gem 'rspec'
+  gem 'simplecov', require: false
+  gem 'simplecov-lcov', require: false
 end
